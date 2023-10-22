@@ -1,0 +1,23 @@
+.home-container {
+ color: #020001;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ text-align: center;
+ flex-direction: column;
+ font-family: "Roboto", sans-serif; /* Added sans-serif as a generic font family */
+}
+
+.home-image-container {
+ display: flex;
+ justify-content: center;
+}
+
+.home-image {
+ width: 393px;
+ height: 233px;
+ filter: brightness(60%);
+ border-radius: 0px 100px;
+ background: lightgray 50% / cover no-repeat;
+ box-shadow: 10px 10px 5px 5px rgba(0, 0, 0, 0.50);
+}

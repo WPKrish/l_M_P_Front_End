@@ -1,14 +1,13 @@
-import NavBarWithLogin from "../components/NavBarWithLogin";
+import React from "react";
 
 const About = () => {
   return (
-    <>
-      <NavBarWithLogin />
+    <React.Fragment>
       <h3 className="container mt-4">This is About page</h3>
       <div className="container mt-4">
         Company policy and details should be included here
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

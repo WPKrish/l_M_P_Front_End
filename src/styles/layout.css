@@ -1,0 +1,10 @@
+/* DefaultLayout.css */
+.app-wrapper {
+ display: flex;
+ flex-direction: column;
+ min-height: 100vh; /* Ensure the layout covers at least the viewport height */
+}
+
+.content-wrapper {
+ flex-grow: 1; /* Allow content to grow and push the footer down */
+}

@@ -1,125 +1,113 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBar from "../components/NavBar";
 import LoginImg from "../assest/login.webp";
+// import "./Login.css"; // Import your custom CSS file for styling
 
 const Login = () => {
-  const [employeeID, setEmployeeID] = useState("");
-  const [password, setPassword] = useState("");
+  const [credentials, setCredentials] = useState({
+    employeeID: "",
+    password: "",
+  });
   const navigate = useNavigate();
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleEmployeeIDChange = (event) => {
-    setEmployeeID(event.target.value);
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setCredentials({
+      ...credentials,
+      [name]: value,
+    });
   };
 
   const handleButtonClick = async (event) => {
     event.preventDefault();
-    console.log(localStorage.getItem("a"));
 
     try {
-      const response = await axios.post("http://localhost:8080/login", {
-        employeeID: employeeID,
-        password: password,
-      });
+      const response = await axios.post("http://localhost:8080/login", credentials);
 
-      if (response.data.message === "Login Success as Admin") {
-        navigate("/admin");
-      } else if (response.data.message === "Login Success as Supervisor") {
-        navigate("/supervisor");
-      } else if (response.data.message === "Login Success as Labor") {
-        navigate("/Labor");
-      } else if (response.data.message === "User not exits") {
-        alert("User Not exit");
-      } else {
-        alert("Employee Nomber and Password Not match");
+      switch (response.data.message) {
+        case "Login Success as Admin":
+          navigate("/admin");
+          break;
+        case "Login Success as Supervisor":
+          navigate("/supervisor");
+          break;
+        case "Login Success as Labor":
+          navigate("/Labor");
+          break;
+        case "User not exists":
+          alert("User does not exist");
+          break;
+        default:
+          alert("Employee Number and Password do not match");
       }
     } catch (error) {
-      // Handle any network or other errors
       console.error("Error:", error);
     }
   };
 
-
   return (
-    <>
-      <NavBar />
-      <div className="container mt-4">
-        <div className="row">
-          {/* Left side with image */}
-          <div className="col-md-6">
-            <img
-              src={LoginImg}
-              alt="LoginImage"
-              className="img-fluid"
-              style={{ filter: "brightness(50%)" }} // Adjust the percentage as needed
-            />
-          </div>
+    <div className="container login-container">
+      <div className="row">
+        <div className="col-md-6 left-side">
+          <img
+            src={LoginImg}
+            alt="LoginImage"
+            className="img-fluid"
+            style={{ filter: "brightness(50%)" }}
+          />
+        </div>
+        <div className="col-md-6 right-side">
+          <form>
+            <fieldset>
+              <legend>Login</legend>
 
-          {/* Right side with login form */}
-          <div className="col-md-6">
-            <form>
-              <fieldset>
-                <legend>Login</legend>
+              <div className="form-group">
+                <label htmlFor="employeeID" className="form-label mt-4">
+                  Employee ID
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="employeeID"
+                  name="employeeID"
+                  placeholder="Enter Employee ID"
+                  value={credentials.employeeID}
+                  onChange={handleInputChange}
+                />
+              </div>
 
-                <div className="form-group">
-                  <label
-                    htmlFor="exampleInputemployeeID1"
-                    className="form-label mt-4"
-                  >
-                    Employee ID
-                  </label>
-                  
-                  <input
-                    type="id"
-                    className="form-control"
-                    id="exampleInputEmployeeID"
-                    aria-describedby="employeeIDHelp"
-                    placeholder="Enter Employee ID"
-                    value={employeeID}
-                    onChange={handleEmployeeIDChange}
-                  />
-                </div>
+              <div className="form-group">
+                <label htmlFor="password" className="form-label mt-4">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  name="password"
+                  autoComplete="off"
+                  value={credentials.password}
+                  onChange={handleInputChange}
+                  placeholder="Password"
+                />
+                <small id="employeeIDHelp" className="form-text text-muted">
+                  We'll never share your details with anyone else.
+                </small>
+              </div>
 
-                <div className="form-group">
-                  <label
-                    htmlFor="exampleInputPassword1"
-                    className="form-label mt-4"
-                  >
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    autoComplete="off"
-                    value={password}
-                    onChange={handlePasswordChange}
-                    placeholder="Password"
-                  />
-                  <small id="employeeIDHelp" className="form-text text-muted">
-                    We'll never share your details with anyone else.
-                  </small>
-                </div>
-
-                <p></p>
-                <button
-                  type="login"
-                  className="btn btn-primary"
-                  onClick={handleButtonClick}
-                >
-                  Login
-                </button>
-              </fieldset>
-            </form>
-          </div>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={handleButtonClick}
+              >
+                Login
+              </button>
+            </fieldset>
+          </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
