@@ -1,19 +1,16 @@
 import React from "react";
 import Main from "../assest/main.png";
-import "../styles/home.css"
+import "../styles/home.css";
 
 const Home = () => {
   return (
     <React.Fragment>
-
-      <div
-        className="container mt-4 home-container"
-      >
-        <h1 className="home-title">Labor Management</h1>
-        <h1 className="home-title">System</h1>
+      <div className="container mt-4 home-container">
+        <h2 className="home-title" style={{color:"#26495B", marginTop:"10px"}}>Labor Management</h2>
+        <h2 className="home-title" style={{color:"#26495B", marginBottom:"15px"}}>System</h2>
         <p className="home-description">
           "Welcome to our Labor Management System, where efficiency meets
-          excellence.{" "}
+          excellence{" "}
         </p>
         <p>
           Our platform is designed to streamline workforce management, providing
@@ -26,14 +23,8 @@ const Home = () => {
         </p>
       </div>
 
-      <div
-        className="container mt-4 home-image-container"
-      >
-        <img
-          src={Main}
-          alt="Description"
-          className="home-image"
-        />
+      <div className="container mt-4 home-image-container">
+        <img src={Main} alt="Description" className="home-image" />
       </div>
     </React.Fragment>
   );

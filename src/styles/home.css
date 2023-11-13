@@ -21,3 +21,11 @@
  background: lightgray 50% / cover no-repeat;
  box-shadow: 10px 10px 5px 5px rgba(0, 0, 0, 0.50);
 }
+
+.boldFont{
+    font-weight: bold;
+    font-size: 18px;
+}
+.details{
+    margin-left: 12%;
+}

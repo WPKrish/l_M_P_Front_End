@@ -8,9 +8,11 @@ function DefaultLayout({ children }) {
   return (
     <div className="app-wrapper">
       <GuessNavBar />
+      
       <div className="content-wrapper">
         {children}
       </div>
+      
       <Footer />
     </div>
   );

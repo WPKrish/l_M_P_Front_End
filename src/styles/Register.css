@@ -1,0 +1,85 @@
+.register-container
+{
+   
+   display: flex;
+   justify-content: center; /* Horizontal center*/
+   align-items: center;   /* Vertical center*/
+   margin-top: auto;
+   margin-bottom: 20px;
+
+}
+
+.register-form
+{
+  display: flex;
+  flex-direction: column;
+  min-width: 30vw;
+
+}
+
+h3{
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+    text-align: center;
+    margin-top:auto;
+    margin-bottom:10px; 
+}
+
+.command{
+  color: gray;
+  font-weight: bold;
+}
+
+
+.form-group {
+    display: flex; /* Use flexbox to align elements in the same row */
+    align-items: center; /* Vertically center elements within the container */
+  }
+  
+  .form-group div {
+    flex: 1; /* Allow the div to take up available space in the row */
+    margin-right: 10px; /* Add some spacing between the div and input */
+  }
+
+input 
+{   
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width:350px;
+    height: 45px;
+    color: rgb(91, 91, 91);
+}
+
+select
+{   
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width:350px;
+    height: 45px;
+    color: rgb(91, 91, 91);
+}
+
+
+button
+{
+    background-color: black;
+    color: white;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+    border: 1px solid white;
+
+}
+
+.bottom-link
+{
+    text-decoration: none;
+    color: black;
+}

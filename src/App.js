@@ -42,7 +42,11 @@ function App() {
           <Route
             key={index}
             path={route.path}
-            element={<route.layout><route.component /></route.layout>}
+            element={
+              <route.layout>
+                <route.component />
+              </route.layout>
+            }
           />
         ))}
       </Routes>
@@ -51,5 +55,3 @@ function App() {
 }
 
 export default App;
-
-

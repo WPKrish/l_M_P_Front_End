@@ -1,0 +1,130 @@
+.salary-container {
+  display: flex;
+  /* height: 78vh; */
+  justify-content: center;
+  /* align-items: center; */
+  margin-top: 10px;
+  /* margin-bottom: 120px; */
+}
+
+.salary-form {
+  display: flex;
+  flex-direction: column;
+  min-width: 30vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h3 {
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.command {
+  color: gray;
+  font-weight: bold;
+}
+.user-details {
+  color: rgb(72, 72, 72);
+  font-weight: bold;
+  font-size: large;
+  margin-top: 20px;
+}
+
+.form-group {
+  display: flex; /* Use flexbox to align elements in the same row */
+  align-items: center; /* Vertically center elements within the container */
+}
+
+.form-group div {
+  flex: 1; /* Allow the div to take up available space in the row */
+  margin-right: 10px; /* Add some spacing between the div and input */
+}
+
+input {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-right: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 350px;
+  height: 45px;
+  color: rgb(91, 91, 91);
+}
+
+select {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-right: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 350px;
+  height: 45px;
+  color: rgb(91, 91, 91);
+}
+
+button {
+  background-color: black;
+  color: white;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  border: 1px solid white;
+}
+
+.bottom-link {
+  text-decoration: none;
+  color: black;
+}
+
+/* List of Table */
+.user-topic {
+  justify-content: center; /* Horizontal center*/
+  text-align: center;
+  /* margin-top: 20px; */
+}
+.table-container {
+  display: flex;
+  justify-content: center;
+  height: auto;
+  margin-bottom: 50px;
+}
+
+.user-table {
+  width: 85%;
+  border-collapse: collapse;
+  border-color: black;
+  margin-top: 10px;
+}
+
+.user-table th,
+.user-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  padding-left: 20px;
+  text-align: left;
+  /* border-color: rgb(232, 229, 229); */
+  border-color: #eceff1;
+  border-width: 2px;
+}
+
+.user-table th {
+  /* background-color: #f2f2f2; */
+  background-color: #cfd8dc;
+}
+.user-table td {
+  background-color: #ffffff;
+  color: black;
+}
+
+.user-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.user-table tr:hover {
+  background-color: #ddd;
+}

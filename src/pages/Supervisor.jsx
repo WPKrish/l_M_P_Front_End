@@ -1,122 +1,178 @@
-import NavBarWithLogout from "../components/NavBarWithLogout";
+import { useNavigate } from "react-router-dom";
+import UserProfile from "../components/UserProfile";
+import "../styles/ButtonsInProfile.css";
 
 const Supervisor = () => {
-  const buttonStyle = {
-    width: "400px",
-    height: "40px",
-    marginBottom: "10px",
-    backgroundColor: "#A9A79F",
-    color: "#fff",
-    border: "none",
-    cursor: "pointer",
-    padding: "5px",
-    borderRadius: "5px",
-    transition: "background-color 0.3s ease",
+  const navigate = useNavigate();
+
+  const handleAddLaborClick = () => {
+    // Navigate to the login page
+    navigate("/register");
   };
-  const buttonHoverStyle = {
-    backgroundColor: "#7F7E79", // Adjust the color on hover
+  const handleUpdateSupervisorClick = () => {
+    // Navigate to the login page
+    navigate("/updateuser");
   };
+
+  const handleRemoveLaborrClick = () => {
+    // Navigate to the login page
+    navigate("/remove");
+  };
+
+  const handleGetLaborsClick = () => {
+    // Navigate to the login page
+    navigate("/getlabors");
+  };
+
+  const handleGetTodayAttendanceClick = () => {
+    // Navigate to the login page
+    navigate("/todayattendance");
+  };
+
+  const handleGetDailyAttendanceClick = () => {
+    // Navigate to the login page
+    navigate("/dailyattendance");
+  };
+
+  const handleMarkAttendanceClick = () => {
+    // Navigate to the login page
+    navigate("/markattendance");
+  };
+
+  const handleMarkPointClick = () => {
+    // Navigate to the login page
+    navigate("/markpoint");
+  };
+
+  const handleGetCurrentMonthlyAttendanceClick = () => {
+    // Navigate to the login page
+    navigate("/thismonthattendance");
+  };
+
+  const handleGetCurrentMonthSalaryClick = () => {
+    // Navigate to the login page
+    navigate("/thismonthsalary");
+  };
+
+  const handleGetMonthlySalaryClick = () => {
+    // Navigate to the login page
+    navigate("/monthlysalary");
+  };
+
+  const handleGetMonthlyAttendanceClick = () => {
+    // Navigate to the login page
+    navigate("/monthlyattendance");
+  };
+
+  const handleGetAllLaborsSalaryClick = () => {
+    // Navigate to the login page
+    navigate("/alllaborssalary");
+  };
+
+  const handleGetMonthlyPointsClick = () => {
+    // Navigate to the login page
+    navigate("/monthlypoints");
+  };
+
+  // Get saved data from local storage
+  const userEmployeeID = localStorage.getItem("employeeID");
+  const userName = localStorage.getItem("name");
+  const userRole = localStorage.getItem("role");
 
   return (
     <>
-      <NavBarWithLogout />
-
-      <div
-        style={{
-          width: "1220px",
-          margin: "20px",
-          padding: "10px",
-          border: "1px solid #ccc",
-          borderRadius: "10px",
-          backgroundColor: "#F4F2E9",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          height: "auto", // Set the height to 100% of the viewport height
-        }}
-      >
-        <h3
-          style={{
-            textAlign: "center",
-          }}
-        >
-          Supervisor Profile
-        </h3>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <label
-            style={{
-              color: "#000000",
-              fontWeight: "500",
-              marginRight: "10px",
-              padding: "5px",
-            }}
-          >
-            Name:
-          </label>
-          <div>John Doe</div>
-        </div>
-
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <label
-            style={{
-              color: "#000000",
-              fontWeight: "500",
-              marginRight: "10px",
-              padding: "5px",
-            }}
-          >
-            Job Role:
-          </label>
-          <div>
-            {/* <input type="text" value={"jobRole"} /> */}
-            Supervisor
-          </div>
-        </div>
-
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <label
-            style={{
-              color: "#000000",
-              fontWeight: "500",
-              marginRight: "10px",
-              padding: "5px",
-            }}
-          >
-            Employee ID:
-          </label>
-          <div>{/* <input type="text" value={"employeeID"} /> */}1</div>
-        </div>
+      <div>
+        <UserProfile
+          userName={userName}
+          userEmployeeID={userEmployeeID}
+          userRole={userRole}
+        />
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <button style={{ ...buttonStyle, ...buttonHoverStyle }}>
-          Add Labor
+      <div className="buttonContainerStyle">
+        {/* <button className="buttonStyle" onClick={handleMarkAttendanceClick}>
+          Mark Labor Attendance
         </button>
-        <button style={{ ...buttonStyle, ...buttonHoverStyle }}>
-          Update Labor
-        </button>
-        <button style={{ ...buttonStyle, ...buttonHoverStyle }}>
-          Remove Labor
-        </button>
-        <button style={{ ...buttonStyle, ...buttonHoverStyle }}>
-          View All Labor
-        </button>
-        <button style={{ ...buttonStyle, ...buttonHoverStyle }}>
-          View LAbor Attendance
-        </button>
-        <button style={{ ...buttonStyle, ...buttonHoverStyle }}>
-          View Labor Full Details
-        </button>
-        <button style={{ ...buttonStyle, ...buttonHoverStyle }}>
-          View Labor Salary Cost By Month
-        </button>
+        <br></br> */}
+
+        <div className="buttonGroupStyle">
+          <button className="buttonStyle" onClick={handleMarkAttendanceClick}>
+            Mark Labor Attendance
+          </button>
+          <button className="buttonStyle" onClick={handleMarkPointClick}>
+            Mark Labor Points
+          </button>
+        </div>
+        <br></br>
+
+        <div className="buttonGroupStyle">
+          <button className="buttonStyle" onClick={handleAddLaborClick}>
+            Add Labor
+          </button>
+          <button className="buttonStyle" onClick={handleUpdateSupervisorClick}>
+            Update Labor
+          </button>
+          <button className="buttonStyle" onClick={handleRemoveLaborrClick}>
+            Remove Labor
+          </button>
+        </div>
+        <br></br>
+        <div className="buttonGroupStyle">
+          <button className="buttonStyle" onClick={handleGetLaborsClick}>
+            View All Labors
+          </button>
+          <button
+            className="buttonStyle"
+            onClick={handleGetTodayAttendanceClick}
+          >
+            View Today Labor Attendances
+          </button>
+          <button className="buttonStyle" onClick={handleGetMonthlyPointsClick}>
+            View Monthly Labor Points
+          </button>
+        </div>
+
+
+        <div className="buttonGroupStyle">
+          <button
+            className="buttonStyle"
+            onClick={handleGetDailyAttendanceClick}
+          >
+            View Daily Labor Attendances
+          </button>
+
+          <button
+            className="buttonStyle"
+            onClick={handleGetCurrentMonthlyAttendanceClick}
+          >
+            View This Month Labor Attendances
+          </button>
+          <button
+            className="buttonStyle"
+            onClick={handleGetMonthlyAttendanceClick}
+          >
+            View Monthly Labor Attendaces
+          </button>
+        </div>
+
+        <div className="buttonGroupStyle">
+          <button
+            className="buttonStyle"
+            onClick={handleGetAllLaborsSalaryClick}
+          >
+            View Labor Salary Cost By Month
+          </button>
+          <button
+            className="buttonStyle"
+            onClick={handleGetCurrentMonthSalaryClick}
+          >
+            View This Month Labor Salary
+          </button>
+
+          <button className="buttonStyle" onClick={handleGetMonthlySalaryClick}>
+            View Monthly Labor Salary
+          </button>
+        </div>
       </div>
     </>
   );
