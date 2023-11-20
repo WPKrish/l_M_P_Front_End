@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/UsersList.css";
 import UserProfile from "../components/UserProfile";
+import BackButton from "../components/BackButton";
+
+import Swal from "sweetalert2";
+import "../styles/SweeAlert2.css";
+import {defaultConfig} from "../constant/App.constant";
 
 const TodayAttendanceList = () => {
   const [attendances, setAttendances] = useState([]);
@@ -16,21 +21,24 @@ const TodayAttendanceList = () => {
       console.log("API Response:", response.data);
       setAttendances(response.data);
     } catch (error) {
-      console.error("Error fetching attendances: ", error);
-      console.error("Error message: ", error.message);
-      console.error("Error code: ", error.code);
-      console.error("Error response: ", error.response);
-      alert("Labors Not Found Today");
+      // alert("Labors Not Found Today");
+      Swal.fire({
+        ...defaultConfig,
+        title: "Labors Not Found Today",
+      });
     }
   };
 
   // Get saved data from local storage
   const userEmployeeID = localStorage.getItem("employeeID");
-  const userName = localStorage.getItem("name");
-  const userRole = localStorage.getItem("role");
+  const userName = JSON.parse(localStorage.getItem("name")); // Get String from local storage without double quotation
+  const userRole = JSON.parse(localStorage.getItem("role"));
 
   return (
     <>
+      <div>
+        <BackButton />
+      </div>
       <div>
         <UserProfile
           userName={userName}
@@ -57,8 +65,17 @@ const TodayAttendanceList = () => {
               <tbody>
                 {attendances.map((attendance) => (
                   <tr key={attendance.attID}>
-                    {/* <td>{attendances.dailyJob}</td> */}
-                    <td>{String(attendance?.employeeID)}</td>
+                    {/* <td>{(attendance?.employeeID)}</td> */}
+                    <td
+                      style={{
+                        fontWeight:
+                          attendance.employeeID === parseInt(userEmployeeID)
+                            ? "bold"
+                            : "",
+                      }}
+                    >
+                      {attendance.employeeID}
+                    </td>
                     <td>{attendance?.name || "NA"}</td>
                     <td>{attendance?.dailyJob || "NA"}</td>
                     <td>
@@ -71,10 +88,13 @@ const TodayAttendanceList = () => {
               </tbody>
             </table>
           )}
-          <div>{!attendances.length >0 &&(
-            <div style={{fontSize:"18px"}}><br></br>Labors Not Attend Today Until This Moment</div>
-          )}</div>
-          
+          <div>
+            {!attendances.length > 0 && (
+              <div style={{ fontSize: "18px" }}>
+                <br></br>Labors Not Attend Today Until This Moment
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>

@@ -6,8 +6,18 @@ const Home = () => {
   return (
     <React.Fragment>
       <div className="container mt-4 home-container">
-        <h2 className="home-title" style={{color:"#26495B", marginTop:"10px"}}>Labor Management</h2>
-        <h2 className="home-title" style={{color:"#26495B", marginBottom:"15px"}}>System</h2>
+        <h2
+          className="home-title"
+          style={{ color: "#26495B", marginTop: "10px" }}
+        >
+          M Labouring
+        </h2>
+        <h2
+          className="home-title"
+          style={{ color: "#26495B", marginBottom: "15px" }}
+        >
+          System
+        </h2>
         <p className="home-description">
           "Welcome to our Labor Management System, where efficiency meets
           excellence{" "}

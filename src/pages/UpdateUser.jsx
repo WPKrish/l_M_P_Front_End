@@ -5,9 +5,15 @@ import UserProfile from "../components/UserProfile";
 import { rateIdOptions } from "../constant/App.constant";
 import { roleIdOptions } from "../constant/App.constant";
 import { siteIdOptions } from "../constant/App.constant";
+import BackButton from "../components/BackButton";
+
+import Swal from "sweetalert2";
+import "../styles/SweeAlert2.css";
+import {defaultConfig} from "../constant/App.constant";
 
 const RegisterUser = () => {
   const [employeeID, setEmployeeID] = useState();
+  const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [birthDay, setBirthDay] = useState(null);
@@ -16,17 +22,98 @@ const RegisterUser = () => {
   const [roleID, setRoleID] = useState(1);
   const [rateID, setRateID] = useState(1);
   const [siteID, setSiteID] = useState(1);
-  const [bloodGroup, setBloodGroup] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("O+");
   const [emergencyPhoneNo, setEmergencyPhoneNo] = useState("");
   const [emergencyName, setEmergencyName] = useState("");
 
+  const [userDetails, setUserDetails] = useState([]);
+  const [isEmpty, setIsEmpty] = useState(true);
+
+  const isSimpleUsername = (username) => {
+    // Define a regular expression pattern for simple characters (alphabets, numbers, underscores)
+    const pattern = /^[a-z]+$/;
+    return pattern.test(username);
+  };
+
+  const handleSelectLabor = async (event) => {
+    event.preventDefault();
+
+    // Doing - get all details from data base for the place holder
+
+    if (!employeeID) {
+      // alert("Please fill Employee ID firstly");
+      Swal.fire({
+        ...defaultConfig,
+        title: "Please fill Employee ID firstly",
+      });
+      return; // Prevent further execution
+    }
+
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/user/${employeeID}`
+      );
+      setUserDetails(response.data);
+
+      setName(response.data.name);
+      setUsername(response.data.username);
+      setPassword(response.data.password);
+      setBirthDay(response.data.birthDay);
+      setAddress(response.data.address);
+      setPhoneNo(response.data.phoneNo);
+      setRoleID(response.data.jobRole.roleID);
+      setRateID(response.data.salaryRate.rateID);
+      setBloodGroup(response.data.bloodGroup);
+      setSiteID(response.data.site.siteID);
+      setEmergencyName(response.data.emergencyName);
+      setEmergencyPhoneNo(response.data.emergencyPhoneNo);
+
+      setIsEmpty(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (
+      !name ||
+      !username ||
+      !password ||
+      !birthDay ||
+      !address ||
+      !phoneNo ||
+      !roleID ||
+      !rateID ||
+      !siteID ||
+      !bloodGroup ||
+      !emergencyPhoneNo ||
+      !emergencyName
+    ) {
+      // alert("Please fill in all the required fields");
+      Swal.fire({
+        ...defaultConfig,
+        title: "Please fill in all the required fields",
+      });
+      return; // Prevent further execution
+    }
+
+    // Additional check for simple username
+    if (!isSimpleUsername(username)) {
+      // alert("Username can only contain simple characters");
+      Swal.fire({
+        ...defaultConfig,
+        title: "Username can only contain simple characters",
+      });
+      return;
+    }
 
     try {
       await axios.put("http://localhost:8080/user", {
         employeeID: employeeID,
         name: name,
+        username: username,
         password: password,
         birthDay: birthDay,
         address: address,
@@ -38,10 +125,16 @@ const RegisterUser = () => {
         emergencyPhoneNo: emergencyPhoneNo,
         emergencyName: emergencyName,
       });
-      alert("User Registation Successfully");
+      // alert("User Update Successfully");
+      Swal.fire({
+        ...defaultConfig,
+        icon: "success",
+        title: "User Update Successfully",
+      });
       setEmployeeID();
       setRoleID();
       setName("");
+      setUsername("");
       setBirthDay();
       setAddress("");
       setPhoneNo("");
@@ -52,181 +145,227 @@ const RegisterUser = () => {
       setEmergencyPhoneNo("");
       setEmergencyName("");
     } catch (err) {
-      alert("User Registation Failed");
+      // alert("User Registation Failed");
+      Swal.fire({
+        ...defaultConfig,
+        title: "User Registation Failed",
+      });
     }
   };
 
-
   // Get saved data from local storage
   const userEmployeeID = localStorage.getItem("employeeID");
-  const userName = localStorage.getItem("name");
-  const userRole = localStorage.getItem("role");
+  const userName = JSON.parse(localStorage.getItem("name")); // Get String from local storage without double quotation
+  const userRole = JSON.parse(localStorage.getItem("role"));
 
   return (
     <>
+      <div>
+        <BackButton />
+      </div>
       <div>
         <UserProfile
           userName={userName}
           userEmployeeID={userEmployeeID}
           userRole={userRole}
-          
         />
       </div>
-      <h3>Update User Details</h3>
-      <div className="register-container">
-        <form className="register-form" /*onSubmit={handleSubmit}*/>
-          {/* <h3>Update User Details</h3> */}
-          <div className="command">Fill in the Information Below</div>
+      <h3>Update Details</h3>
+
+      {/* Find a User */}
+      <div className="salary-container">
+        <form className="salary-form">
+          {/* <br></br>
+            <h3>Labor's Salary for this month</h3> */}
+          <div className="command">Fill in the Employee ID Below</div>
 
           <div className="form-group">
             <div>Employee ID</div>
             <input
               type="id"
-              name="employeeID"
-              placeholder="Employee ID"
+              placeholder="employee ID"
+              value={employeeID}
               onChange={(event) => {
                 setEmployeeID(event.target.value);
               }}
             />
           </div>
 
-          <div className="form-group">
-            <div>Name</div>
+          <button onClick={handleSelectLabor}> Search</button>
+        </form>
+      </div>
+
+      {/* Update User Details */}
+      <br></br>
+      <div className="register-container">
+        {!isEmpty && (
+          <form className="register-form" style={{ width: "455px" }}>
+            {/* <h3>Update User Details</h3> */}
+            <div className="command">Fill in the Information Below</div>
+
+            <div className="form-group">
+              <div>Employee ID</div>
+              <input
+                type="id"
+                name="employeeID"
+                readOnly
+                value={userDetails.employeeID}
+                onChange={(event) => {
+                  setEmployeeID(event.userDetails.employeeID);
+                }}
+              />
+            </div>
+
+            <div className="form-group">
+              <div>Name</div>
+              <input
+                type="text"
+                name="name"
+                // placeholder="name"
+                // placeholder={userDetails.name}
+                value={name}
+                onChange={(event) => {
+                  setName(event.target.value);
+                }}
+              />
+            </div>
+
+            <div className="form-group">
+            <div>Username</div>
             <input
               type="text"
-              name="name"
-              placeholder="name"
+              name="usernamename"
+              value={username}
               onChange={(event) => {
-                setName(event.target.value);
+                setUsername(event.target.value);
               }}
             />
           </div>
 
-          <div className="form-group">
-            <div>Password</div>
-            <input
-              // className="form-control"
-              type="password"
-              name="password"
-              placeholder="password"
-              onChange={(event) => {
-                setPassword(event.target.value);
-              }}
-            />
-          </div>
+            <div className="form-group">
+              <div>Password</div>
+              <input
+                // className="form-control"
+                type="password"
+                name="password"
+                placeholder="password"
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
+              />
+            </div>
 
-          {/* <div className="form-group">
-            <div>Birth Day</div>
-            <input
-              type="date"
-              name="birthDay"
-              dateFormat="dd/MM/yy"
-              placeholder="format : dd/mm/yy"
-              onChange={(event) => {
-                setBirthDay(event.target.value);
-              }}
-            />
-          </div> */}
+            <div className="form-group">
+              <div>Birth Day</div>
+              <input
+                type="date"
+                name="birthDay"
+                // value={birthDay}
+                onChange={(event) => {
+                  const inputDate = new Date(event.target.value);
+                  if (!isNaN(inputDate.getTime())) {
+                    // Check if the input date is valid
+                    const formattedDate = inputDate.toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "2-digit",
+                      }
+                    );
+                    setBirthDay(formattedDate);
+                  }
+                }}
+              />
+            </div>
 
-          <div className="form-group">
-            <div>Birth Day</div>
-            <input
-              type="date"
-              name="birthDay"
-              onChange={(event) => {
-                const inputDate = new Date(event.target.value);
-                if (!isNaN(inputDate.getTime())) {
-                  // Check if the input date is valid
-                  const formattedDate = inputDate.toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "2-digit",
-                  });
-                  setBirthDay(formattedDate);
-                }
-              }}
-            />
-          </div>
+            <div className="form-group">
+              <div>Address</div>
+              <input
+                type="text"
+                name="address"
+                //   placeholder="address"
+                // placeholder={userDetails.address}
+                value={address}
+                onChange={(event) => {
+                  setAddress(event.target.value);
+                }}
+              />
+            </div>
 
-          <div className="form-group">
-            <div>Address</div>
-            <input
-              type="text"
-              name="address"
-              //   placeholder="address"
-              onChange={(event) => {
-                setAddress(event.target.value);
-              }}
-            />
-          </div>
+            <div className="form-group">
+              <div>Phone No.</div>
+              <input
+                type="text"
+                name="phoneNo"
+                //   placeholder="phone Number"
+                // placeholder={userDetails.phoneNo}
 
-          <div className="form-group">
-            <div>Phone No.</div>
-            <input
-              type="text"
-              name="phoneNo"
-              //   placeholder="phone Number"
-              onChange={(event) => {
-                setPhoneNo(event.target.value);
-              }}
-            />
-          </div>
+                value={phoneNo}
+                onChange={(event) => {
+                  setPhoneNo(event.target.value);
+                }}
+              />
+            </div>
 
-          <div className="form-group">
-            <div>Job Role</div>
-            <select
-              id="roleID"
-              name="roleID"
-              onChange={(event) => {
-                setRoleID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
-              }}
-            >
-              {Object.keys(roleIdOptions).map((value) => (
-                <option key={value} value={value}>
-                  {roleIdOptions[value]}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="form-group">
+              <div>Job Role</div>
+              <select
+                id="roleID"
+                name="roleID"
+                value={roleID}
+                onChange={(event) => {
+                  setRoleID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
+                }}
+              >
+                {Object.keys(roleIdOptions).map((value) => (
+                  <option key={value} value={value}>
+                    {roleIdOptions[value]}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="form-group">
-            <div>Salary Type</div>
-            <select
-              id="rateID"
-              name="rateID"
-              onChange={(event) => {
-                setRateID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
-              }}
-            >
-              {Object.keys(rateIdOptions).map((value) => (
-                <option key={value} value={value}>
-                  {rateIdOptions[value]}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="form-group">
+              <div>Salary Type</div>
+              <select
+                id="rateID"
+                name="rateID"
+                value={rateID}
+                onChange={(event) => {
+                  setRateID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
+                }}
+              >
+                {Object.keys(rateIdOptions).map((value) => (
+                  <option key={value} value={value}>
+                    {rateIdOptions[value]}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="form-group">
-            <div>Blood Group</div>
-            <select
-              id="rateID"
-              name="rateID"
-              onChange={(event) => {
-                setBloodGroup(event.target.value);
-              }}
-            >
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-            </select>
-          </div>
+            <div className="form-group">
+              <div>Blood Group</div>
+              <select
+                id="rateID"
+                name="rateID"
+                value={bloodGroup}
+                onChange={(event) => {
+                  setBloodGroup(event.target.value);
+                }}
+              >
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+              </select>
+            </div>
 
-          {/* <div className="form-group">
+            {/* <div className="form-group">
             <div>Site</div>
             <input
               type="text"
@@ -237,49 +376,55 @@ const RegisterUser = () => {
               }}
             />
           </div> */}
-          <div className="form-group">
-            <div>Site</div>
-            <select
-              id="siteID"
-              name="siteID"
-              onChange={(event) => {
-                setSiteID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
-              }}
-            >
-              {Object.keys(siteIdOptions).map((value) => (
-                <option key={value} value={value}>
-                  {siteIdOptions[value]}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="form-group">
+              <div>Site</div>
+              <select
+                id="siteID"
+                name="siteID"
+                value={siteID}
+                onChange={(event) => {
+                  setSiteID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
+                }}
+              >
+                {Object.keys(siteIdOptions).map((value) => (
+                  <option key={value} value={value}>
+                    {siteIdOptions[value]}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="form-group">
-            <div>Emerge Name</div>
-            <input
-              type="text"
-              name="emergencyName"
-              //   placeholder="emergency Name"
-              onChange={(event) => {
-                setEmergencyName(event.target.value);
-              }}
-            />
-          </div>
+            <div className="form-group">
+              <div>Emerge Name</div>
+              <input
+                type="text"
+                name="emergencyName"
+                //   placeholder="emergency Name"
+                // placeholder={userDetails.emergencyName}
+                value={emergencyName}
+                onChange={(event) => {
+                  setEmergencyName(event.target.value);
+                }}
+              />
+            </div>
 
-          <div className="form-group">
-            <div>Emerg Phone No</div>
-            <input
-              type="text"
-              name="emergencyPhoneNo"
-              //   placeholder="emergency PhoneNo"
-              onChange={(event) => {
-                setEmergencyPhoneNo(event.target.value);
-              }}
-            />
-          </div>
+            <div className="form-group">
+              <div>Emerg Phone No</div>
+              <input
+                type="text"
+                name="emergencyPhoneNo"
+                //   placeholder="emergency PhoneNo"
+                // placeholder={userDetails.emergencyPhoneNo}
+                value={emergencyPhoneNo}
+                onChange={(event) => {
+                  setEmergencyPhoneNo(event.target.value);
+                }}
+              />
+            </div>
 
-          <button /*type="submit"*/ onClick={handleSubmit}>Update</button>
-        </form>
+            <button /*type="submit"*/ onClick={handleSubmit}>Update</button>
+          </form>
+        )}
       </div>
     </>
   );

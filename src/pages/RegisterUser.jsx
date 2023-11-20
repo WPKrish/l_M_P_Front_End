@@ -2,29 +2,82 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 import UserProfile from "../components/UserProfile";
-import { rateIdOptions } from "../constant/App.constant";
+import {
+  adminRateIdOptions,
+  labourateIdOptions,
+  rateIdOptions,
+  rateIdOptionsForAdmin,
+  rateIdOptionsForLabor,
+  supervisorRateIdOptions,
+} from "../constant/App.constant";
 import { roleIdOptions } from "../constant/App.constant";
 import { siteIdOptions } from "../constant/App.constant";
+import BackButton from "../components/BackButton";
+
+import Swal from "sweetalert2";
+import "../styles/SweeAlert2.css";
+import {defaultConfig} from "../constant/App.constant";
 
 const RegisterUser = () => {
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [birthDay, setBirthDay] = useState(null);
   const [address, setAddress] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [roleID, setRoleID] = useState(1);
-  const [rateID, setRateID] = useState(1);
+  const [rateID, setRateID] = useState(3);
   const [siteID, setSiteID] = useState(1);
-  const [bloodGroup, setBloodGroup] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("O+");
   const [emergencyPhoneNo, setEmergencyPhoneNo] = useState("");
   const [emergencyName, setEmergencyName] = useState("");
+  // const [salaryArr, setSalaryArr] = useState([]);
+
+  const isSimpleUsername = (username) => {
+    // Define a regular expression pattern for simple characters (alphabets, numbers, underscores)
+    const pattern = /^[a-z]+$/;
+    return pattern.test(username);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (
+      !name ||
+      !username ||
+      !password ||
+      !birthDay ||
+      !address ||
+      !phoneNo ||
+      !roleID ||
+      !rateID ||
+      !siteID ||
+      !bloodGroup ||
+      !emergencyPhoneNo ||
+      !emergencyName
+    ) {
+      // alert("Please fill in all the required fields");
+      Swal.fire({
+        ...defaultConfig,
+        title: "Please fill in all the required fields",
+      });
+      return; // Prevent further execution
+    }
+
+    // Additional check for simple username
+    if (!isSimpleUsername(username)) {
+      // alert("Username can only contain simple characters");
+      Swal.fire({
+        ...defaultConfig,
+        title: "Username can only contain simple characters",
+      });
+      return;
+    }
+
     try {
       await axios.post("http://localhost:8080/user", {
         name: name,
+        username: username,
         password: password,
         birthDay: birthDay,
         address: address,
@@ -36,8 +89,14 @@ const RegisterUser = () => {
         emergencyPhoneNo: emergencyPhoneNo,
         emergencyName: emergencyName,
       });
-      alert("User Registation Successfully");
+      // alert("User Registation Successfully");
+      Swal.fire({
+        ...defaultConfig,
+        icon:"success",
+        title: "User Registation Successfully",
+      });
       setRoleID();
+      setUsername("");
       setName("");
       setBirthDay();
       setAddress("");
@@ -48,8 +107,13 @@ const RegisterUser = () => {
       setBloodGroup("");
       setEmergencyPhoneNo("");
       setEmergencyName("");
+      // setSalaryArr([]);
     } catch (err) {
-      alert("User Registation Failed");
+      // alert("User Registation Failed");
+      Swal.fire({
+        ...defaultConfig,
+        title: "User Registation Failed",
+      });
     }
   };
 
@@ -70,12 +134,41 @@ const RegisterUser = () => {
   //   2: "Dehevala",
   // };
 
+  // Get saved data from local storage
   const userEmployeeID = localStorage.getItem("employeeID");
-  const userName = localStorage.getItem("name");
-  const userRole = localStorage.getItem("role");
+  const userName = JSON.parse(localStorage.getItem("name")); // Get String from local storage without double quotation
+  const userRole = JSON.parse(localStorage.getItem("role"));
+
+  // const jobRoleHandler = (event) => {
+
+  //   // const jobRoleId = event.target.value;
+  //   // setRoleID(jobRoleId);
+
+  //     setRoleID(event.target.value);
+
+  //   // if role admin -> admin arr
+  //   // if role labour -> labour arr
+
+  //   let tempArr = [];
+
+  //   if (roleID === 1) {
+  //     tempArr = adminRateIdOptions;
+  //   } else if (roleID === 2) {
+  //     tempArr = supervisorRateIdOptions;
+  //   } else {
+  //     tempArr = labourateIdOptions;
+  //   }
+
+  //   setSalaryArr(tempArr);
+
+  //   setRateID(tempArr?.id);
+  // };
 
   return (
     <>
+      <div>
+        <BackButton />
+      </div>
       <div>
         <UserProfile
           userName={userName}
@@ -83,7 +176,7 @@ const RegisterUser = () => {
           userRole={userRole}
         />
       </div>
-      <h3>User Registration</h3>
+      <h3>Registration Form</h3>
 
       <div className="register-container">
         <form className="register-form" /*onSubmit={handleSubmit}*/>
@@ -102,7 +195,18 @@ const RegisterUser = () => {
             />
           </div>
 
-            
+          <div className="form-group">
+            <div>Username</div>
+            <input
+              type="text"
+              name="usernamename"
+              placeholder="username"
+              onChange={(event) => {
+                setUsername(event.target.value);
+              }}
+            />
+          </div>
+
           <div className="form-group">
             <div>Password</div>
             <input
@@ -115,7 +219,6 @@ const RegisterUser = () => {
               }}
             />
           </div>
-          
 
           {/* <div className="form-group">
             <div>Birth Day</div>
@@ -155,7 +258,7 @@ const RegisterUser = () => {
             <input
               type="text"
               name="address"
-              //   placeholder="address"
+              placeholder="address"
               onChange={(event) => {
                 setAddress(event.target.value);
               }}
@@ -167,20 +270,59 @@ const RegisterUser = () => {
             <input
               type="text"
               name="phoneNo"
-              //   placeholder="phone Number"
+              placeholder="phone Number"
               onChange={(event) => {
                 setPhoneNo(event.target.value);
               }}
             />
           </div>
 
+          {/* <div className="form-group">
+            <div>Salary Type</div>
+            <select
+              id="rateID"
+              name="rateID"
+              onChange={(event) => {
+                setRateID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
+              }}
+            >
+              {Object.keys(rateIdOptions).map((value) => (
+                <option key={value} value={value}>
+                  {rateIdOptions[value]}
+                </option>
+              ))}
+            </select>
+          </div> */}
+
+          {/* <div className="form-group">
+            <div>Salary Type</div>
+            <select
+              id="rateID"
+              name="rateID"
+              // value={}
+              onChange={(event) => {
+                setRateID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
+              }}
+            >
+              {salaryArr.map((salary, i) => {
+                return (
+                  <option key={i} value={salary.id}>
+                    {salary.label}
+                  </option>
+                );
+              })}
+            </select>
+          </div> */}
+
           <div className="form-group">
             <div>Job Role</div>
             <select
               id="roleID"
               name="roleID"
+              value={roleID}
               onChange={(event) => {
                 setRoleID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
+                const jobRoleId = event.target.value;
               }}
             >
               {Object.keys(roleIdOptions).map((value) => (
@@ -196,10 +338,12 @@ const RegisterUser = () => {
             <select
               id="rateID"
               name="rateID"
+              value={rateID}
               onChange={(event) => {
                 setRateID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
               }}
             >
+              
               {Object.keys(rateIdOptions).map((value) => (
                 <option key={value} value={value}>
                   {rateIdOptions[value]}
@@ -261,7 +405,7 @@ const RegisterUser = () => {
             <input
               type="text"
               name="emergencyName"
-              //   placeholder="emergency Name"
+              placeholder="emergency contact person Name"
               onChange={(event) => {
                 setEmergencyName(event.target.value);
               }}
@@ -273,14 +417,14 @@ const RegisterUser = () => {
             <input
               type="text"
               name="emergencyPhoneNo"
-              //   placeholder="emergency PhoneNo"
+              placeholder="emergency contact person PhoneNo"
               onChange={(event) => {
                 setEmergencyPhoneNo(event.target.value);
               }}
             />
           </div>
 
-          <button /*type="submit"*/ onClick={handleSubmit}>Register</button>
+          <button onClick={handleSubmit}>Register</button>
         </form>
       </div>
     </>

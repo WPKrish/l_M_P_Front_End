@@ -3,6 +3,11 @@ import axios from "axios";
 import "../styles/ThisMonthSalary.css";
 import UserProfile from "../components/UserProfile";
 import { monthOptions } from "../constant/App.constant";
+import BackButton from "../components/BackButton";
+
+import Swal from "sweetalert2";
+import "../styles/SweeAlert2.css";
+import {defaultConfig} from "../constant/App.constant";
 
 const AllLaborsSalaryCostByMonth = () => {
   const [labors, setLabors] = useState([]);
@@ -13,6 +18,16 @@ const AllLaborsSalaryCostByMonth = () => {
 
   const handleSelectLabor = async (event) => {
     event.preventDefault();
+
+    if (!month || !year) {
+      // alert("Please fill in all the required fields");
+      Swal.fire({
+        ...defaultConfig,
+        title: "Please fill in all the required fields",
+      });
+      return; // Prevent further execution
+    }
+
     try {
       const response = await axios.get(
         `http://localhost:8080/attendance/labor/${year}/${month}`
@@ -22,10 +37,18 @@ const AllLaborsSalaryCostByMonth = () => {
       setIsEmpty(false);
     } catch (error) {
       if (error.response.status === 404) {
-        alert("Labors not found for this month");
+        // alert("Labors not found for this month");
+        Swal.fire({
+          ...defaultConfig,
+          title: "Labors not found for this month",
+        });
       } else {
         // alert(error);
-        alert("Fill all details correctly");
+        // alert("Fill all details correctly");
+        Swal.fire({
+          ...defaultConfig,
+          title: "Fill all details correctly",
+        });
       }
     }
 
@@ -39,13 +62,16 @@ const AllLaborsSalaryCostByMonth = () => {
     }
   };
 
-
+  // Get saved data from local storage
   const userEmployeeID = localStorage.getItem("employeeID");
-  const userName = localStorage.getItem("name");
-  const userRole = localStorage.getItem("role");
+  const userName = JSON.parse(localStorage.getItem("name")); // Get String from local storage without double quotation
+  const userRole = JSON.parse(localStorage.getItem("role"));
 
   return (
     <>
+      <div>
+        <BackButton />
+      </div>
       <div>
         <UserProfile
           userName={userName}

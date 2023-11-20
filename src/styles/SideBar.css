@@ -1,0 +1,119 @@
+.sidebar {
+  width: 150px; /* Set the width according to your design */
+  height: 100%; /* Make it full height */
+  background-color: #daded1; /* Set your desired background color */
+  float: left; /* Align to the left */
+  padding: 10px;
+  margin-right: 10px;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+
+.single-page-sidebar {
+  /* width: 20%;
+    height: 100%;
+    background: #3498db;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 5px;
+    top: 0; */
+  width: 15%; /* Set the width according to your design */
+  height: 89vh; /* Make it full height */
+  background-color: #daded1; /* Set your desired background color */
+  float: left;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.Logo {
+  align-items: center;
+  padding-top: 20px;
+  padding-left: 85px;
+  color: #fff;
+}
+
+.nav-menu {
+  list-style: none;
+  display: list-item;
+  grid-template-rows: repeat(10, auto);
+  grid-gap: 10px;
+  list-style: none;
+  align-items: center;
+  padding: 0;
+}
+
+.nav-menu li {
+  padding: 5px;
+  text-align: center;
+  border-bottom: 0px solid #2970a0;
+}
+
+.nav-menu a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu i {
+  margin-right: 10px;
+}
+
+.nav-menu a:hover {
+  background: #2980b9;
+}
+
+.heading {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  font-size: 5px;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  padding-bottom: 10px;
+  align-items: center;
+}
+
+button:hover {
+  background-color: #3c525d;
+  color: #fff;
+}
+
+.nav-links {
+  text-decoration: none;
+  color: #222;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.7rem 1rem;
+  white-space: nowrap;
+}
+
+.LogOut-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 18px;
+  font-family: sans-serif;
+  font-weight: bold;
+}

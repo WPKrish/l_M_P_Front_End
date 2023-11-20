@@ -98,6 +98,7 @@ button {
   border-collapse: collapse;
   border-color: black;
   margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .user-table th,

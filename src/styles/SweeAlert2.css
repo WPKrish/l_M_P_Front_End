@@ -1,0 +1,16 @@
+.custom-modal-size {
+    max-width: 400px; /* Adjust the width as needed */
+    width: 100%;
+    font-size: 8px;
+  }
+
+  /* SweeAlert2.css */
+
+.custom-confirm-button {
+  padding-left: 20px;
+  padding-right: 20px;
+  font-family:'Times New Roman', Times, serif !important;
+  font-size: 12px !important;
+  box-shadow: none !important;
+  background-color: rgb(128, 142, 153) !important; 
+}

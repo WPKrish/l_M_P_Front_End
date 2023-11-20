@@ -3,6 +3,11 @@ import axios from "axios";
 import "../styles/ThisMonthAttendances.css";
 import UserProfile from "../components/UserProfile";
 import { monthOptions } from "../constant/App.constant";
+import BackButton from "../components/BackButton";
+
+import Swal from "sweetalert2";
+import "../styles/SweeAlert2.css";
+import {defaultConfig} from "../constant/App.constant";
 
 const MonthlyAttendance = () => {
   const [labors, setLabors] = useState([]);
@@ -12,8 +17,20 @@ const MonthlyAttendance = () => {
   const [laborDetails, setLaborDetails] = useState([]);
   const [isEmpty, setIsEmpty] = useState(true);
 
+
+
   const handleSelectLabor = async (event) => {
     event.preventDefault();
+
+    if (!employeeID || !year || !month) {
+      // alert("Please fill in all the required fields");
+      Swal.fire({
+        ...defaultConfig,
+        title: "Please fill in all the required fields",
+      });
+      return; // Prevent further execution
+    }
+
     try {
       const response = await axios.get(
         `http://localhost:8080/attendance/labor/${employeeID}/${year}/${month}`
@@ -23,11 +40,23 @@ const MonthlyAttendance = () => {
       setIsEmpty(false);
     } catch (error) {
       if (error.response.status === 404) {
-        alert("Labor not found for this month");
+        // alert("Labor not found for this month");
+        Swal.fire({
+          ...defaultConfig,
+          title: "Labor not found for this month",
+        });
       } else if (error.response.status === 400) {
-        alert("Input Details Correctly");
+        // alert("Input Details Correctly");
+        Swal.fire({
+          ...defaultConfig,
+          title: "Input Details Correctly",
+        });
       } else {
-        alert(error);
+        // alert(error);
+        Swal.fire({
+          ...defaultConfig,
+          title: "Input Details Correctly",
+        });
       }
     }
 
@@ -41,13 +70,16 @@ const MonthlyAttendance = () => {
     }
   };
 
-
+  // Get saved data from local storage
   const userEmployeeID = localStorage.getItem("employeeID");
-  const userName = localStorage.getItem("name");
-  const userRole = localStorage.getItem("role");
+  const userName = JSON.parse(localStorage.getItem("name")); // Get String from local storage without double quotation
+  const userRole = JSON.parse(localStorage.getItem("role"));
 
   return (
     <>
+      <div>
+        <BackButton />
+      </div>
       <div>
         <UserProfile
           userName={userName}

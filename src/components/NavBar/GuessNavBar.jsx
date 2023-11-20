@@ -4,6 +4,8 @@ import "../../styles/navbar.css";
 import { loadState } from "../../util/StorageManager";
 import { APP_ROLE } from "../../constant/App.constant";
 
+
+
 const GuessNavBar = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
@@ -53,10 +55,10 @@ const GuessNavBar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark" style={{height:"70px", backgroundColor:"black"}}>
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
-          L M S
+        <a className="nav-brand" href="/">
+          M Labouring
         </a>
         <button
           className="navbar-toggler"
@@ -99,28 +101,16 @@ const NavItem = ({ link, text, onClick }) => (
   </li>
 );
 
-// const LoginForm = ({ onLoginClick }) => (
-//   <form className="d-flex">
-//     <button
-//       className="btn btn-secondary my-2 my-sm-0"
-//       type="button"
-//       onClick={onLoginClick}
-//     >
-//       Login
-//     </button>
-//   </form>
-// );
-
 const LoginForm = ({ onLoginClick, onLogoutClick }) => {
   // Check if an employeeID exists in local storage
   const employeeID = localStorage.getItem("employeeID");
-  console.log("EmployeeID", employeeID);
 
   return (
     <form className="d-flex">
       {employeeID ? (
         <button
-          className="btn btn-secondary my-2 my-sm-0"
+          className="log"
+          // style={{height:"30px"}}
           type="button"
           onClick={onLogoutClick}
         >
@@ -128,7 +118,7 @@ const LoginForm = ({ onLoginClick, onLogoutClick }) => {
         </button>
       ) : (
         <button
-          className="btn btn-secondary my-2 my-sm-0"
+          className="log"
           type="button"
           onClick={onLoginClick}
         >

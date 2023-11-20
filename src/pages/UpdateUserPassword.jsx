@@ -2,12 +2,17 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 import UserProfile from "../components/UserProfile";
+import BackButton from "../components/BackButton";
+
+import Swal from "sweetalert2";
+import "../styles/SweeAlert2.css";
+import {defaultConfig} from "../constant/App.constant";
 
 const UpdateUserPassword = () => {
   // Get saved data from local storage
   const userEmployeeID = localStorage.getItem("employeeID");
-  const userName = localStorage.getItem("name");
-  const userRole = localStorage.getItem("role");
+  const userName = JSON.parse(localStorage.getItem("name")); // Get String from local storage without double quotation
+  const userRole = JSON.parse(localStorage.getItem("role"));
 
   const [employeeID, setEmployeeID] = useState(userEmployeeID);
   const [oldPassword, setOldPassword] = useState("");
@@ -17,11 +22,24 @@ const UpdateUserPassword = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!oldPassword || !password || !confirmPassword) {
+      // alert("Please fill in all the required fields");
+      Swal.fire({
+        ...defaultConfig,
+        title: "Please fill in all the required fields",
+      });
+      return; // Prevent further execution
+    }
+
     // Check if the new password and confirm password match
     if (password !== confirmPassword) {
-      alert("New password and confirm password do not match");
+      // alert("New password and confirm password do not match");
+      Swal.fire({
+        ...defaultConfig,
+        title: "New password not match",
+      });
       return;
-    } 
+    }
 
     try {
       const response = await axios.put("http://localhost:8080/user/password", {
@@ -31,24 +49,44 @@ const UpdateUserPassword = () => {
       });
       console.log("Data : ", response.data);
       if (response.data == "Requested User not exist") {
-        alert(response.data);
+        // alert(response.data);
+        Swal.fire({
+          ...defaultConfig,
+          title: response.data,
+        });
       } else if (response.data == "Successfully Changed the password") {
-        alert(response.data);
+        // alert(response.data);
+        Swal.fire({
+          ...defaultConfig,
+          icon:"success",
+          title: response.data,
+        });
       } else if (response.data == "Old password is wrong") {
-        alert(response.data);
+        // alert(response.data);
+        Swal.fire({
+          ...defaultConfig,
+          title: response.data,
+        });
       }
 
       setEmployeeID();
       setPassword("");
       setOldPassword("");
-      setConfirmPassword("")
+      setConfirmPassword("");
     } catch (err) {
-      alert("User Not Exits");
+      // alert("User Not Exits");
+      Swal.fire({
+        ...defaultConfig,
+        title: "User Not Exits",
+      });
     }
   };
 
   return (
     <>
+      <div>
+        <BackButton />
+      </div>
       <div>
         <UserProfile
           userName={userName}

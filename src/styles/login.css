@@ -1,4 +1,4 @@
-/* Add a background image to the body */
+Add a background image to the body
 .login-container {
     font-family: Arial, sans-serif;
     /* background: linear-gradient(to bottom, #6d6c6c, #000000); */
@@ -53,6 +53,33 @@
       width: 100%;
       height: 100%;
    
+    }
+
+    .logDivStyle {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px;
+      margin-right: 10px;
+      height: calc(100vh - 365px);
+      display:flow;
+      width:90%;
+      /* border: 2px solid #ccc; */
+    }
+    
+    .logLeftDivStyle {
+      width: 50%;
+      margin-right: 20px;
+      height: calc(100vh - 365px);
+    }
+    
+    .logRightDivStyle {
+      width: 70%;
+      height: calc(100vh - 365px);
+      display:flex;
+      align-items :center;
+      width:50%;
+      margin-left:20px
+      
     }
    
    

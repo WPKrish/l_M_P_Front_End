@@ -1,12 +1,21 @@
 import React from "react";
+import BackButton from "../components/BackButton";
 
 const About = () => {
   return (
     <React.Fragment>
+      <div>
+        <BackButton />
+      </div>
       <div className="container mt-4 home-container">
-        <h2 className="home-title" style={{color:"#26495B", marginTop:"10px", marginBottom:"15px"}}>Prageeth Construction</h2>
+        <h2
+          className="home-title"
+          style={{ color: "#26495B", marginTop: "10px", marginBottom: "15px" }}
+        >
+          M Construction
+        </h2>
         <p className="home-description">
-          Prageeth Construction, a company that offers construction services in
+          M Construction, a company that offers construction services in
           Sri Lanka. Here is a possible description for this page:{" "}
         </p>
         <br></br>
@@ -26,11 +35,10 @@ const About = () => {
             safety measures, and environmental policies.
           </p>
           <p>
-            <strong className="boldFont">Team : </strong>The page introduces
-            the company’s founder and CEO, Prageeth, and his professional
-            background and qualifications. It also features the profiles of the
-            company’s key staff members, such as engineers, architects, and
-            managers
+            <strong className="boldFont">Team : </strong>The page introduces the
+            company’s founder and CEO, Prageeth, and his professional background
+            and qualifications. It also features the profiles of the company’s
+            key staff members, such as engineers, architects, and managers
           </p>
         </div>
       </div>

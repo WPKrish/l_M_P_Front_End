@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../styles/ThisMonthSalary.css";
 import UserProfile from "../components/UserProfile";
+import BackButton from "../components/BackButton";
+
+import Swal from "sweetalert2";
+import "../styles/SweeAlert2.css";
+import {defaultConfig} from "../constant/App.constant";
 
 const ThisMonthSalary = () => {
   const [labors, setLabors] = useState([]);
@@ -9,9 +14,18 @@ const ThisMonthSalary = () => {
   const [laborDetails, setLaborDetails] = useState([]);
   const [isEmpty, setIsEmpty] = useState(true);
 
-
   const handleSelectLabor = async (event) => {
     event.preventDefault();
+
+    if (!employeeID) {
+      // alert("Please fill Employee ID firstly");
+      Swal.fire({
+        ...defaultConfig,
+        title: "Please fill in all the required fields",
+      });
+      return; // Prevent further execution
+    }
+
     try {
       const response = await axios.get(
         `http://localhost:8080/attendance/currentMonthSalary/${employeeID}`
@@ -21,11 +35,23 @@ const ThisMonthSalary = () => {
       setIsEmpty(false);
     } catch (error) {
       if (error.response.status === 404) {
-        alert("Labor not found");
+        // alert("Labor not found");
+        Swal.fire({
+          ...defaultConfig,
+          title: "Labor not found",
+        });
       } else if (error.response.status === 400) {
-        alert("Input Details Correctly");
+        // alert("Input Details Correctly");
+        Swal.fire({
+          ...defaultConfig,
+          title: "Input Details Correctly",
+        });
       } else {
-        alert(error);
+        // alert(error);
+        Swal.fire({
+          ...defaultConfig,
+          title: error,
+        });
       }
     }
 
@@ -41,11 +67,14 @@ const ThisMonthSalary = () => {
 
   // Get saved data from local storage
   const userEmployeeID = localStorage.getItem("employeeID");
-  const userName = localStorage.getItem("name");
-  const userRole = localStorage.getItem("role");
+  const userName = JSON.parse(localStorage.getItem("name")); // Get String from local storage without double quotation
+  const userRole = JSON.parse(localStorage.getItem("role"));
 
   return (
     <>
+      <div>
+        <BackButton />
+      </div>
       <div>
         <UserProfile
           userName={userName}
@@ -123,7 +152,6 @@ const ThisMonthSalary = () => {
           )}
         </div>
       </div>
-
     </>
   );
 };

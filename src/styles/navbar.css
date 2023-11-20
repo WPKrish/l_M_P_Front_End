@@ -3,3 +3,19 @@
  color: white;
 }
 
+.log{
+    background-color: aliceblue;
+    color: black;
+    font-weight: 500;
+    width: 90px;
+}
+
+.nav-brand{
+    color: aliceblue;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+
+
+

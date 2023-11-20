@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/ThisMonthSalary.css";
 import UserProfile from "../components/UserProfile";
+import BackButton from "../components/BackButton";
+
+import Swal from "sweetalert2";
+import "../styles/SweeAlert2.css";
+import {defaultConfig} from "../constant/App.constant";
 
 const ThisMonthSalaryForLabor = () => {
   const userEmployeeID = localStorage.getItem("employeeID");
@@ -22,11 +27,23 @@ const ThisMonthSalaryForLabor = () => {
       setIsEmpty(false);
     } catch (error) {
       if (error.response.status === 404) {
-        alert("Labor not found");
+        // alert("Labor not found");
+        Swal.fire({
+          ...defaultConfig,
+          title: "Labor not found",
+        });
       } else if (error.response.status === 400) {
-        alert("Input Details Correctly");
+        // alert("Input Details Correctly");
+        Swal.fire({
+          ...defaultConfig,
+          title: "Input Details Correctly",
+        });
       } else {
-        alert(error);
+        // alert(error);
+        Swal.fire({
+          ...defaultConfig,
+          title: error,
+        });
       }
     }
 
@@ -41,11 +58,14 @@ const ThisMonthSalaryForLabor = () => {
   };
 
   // Get saved data from local storage
-  const userName = localStorage.getItem("name");
-  const userRole = localStorage.getItem("role");
+  const userName = JSON.parse(localStorage.getItem("name")); // Get String from local storage without double quotation
+  const userRole = JSON.parse(localStorage.getItem("role"));
 
   return (
     <>
+      <div>
+        <BackButton />
+      </div>
       <div>
         <UserProfile
           userName={userName}

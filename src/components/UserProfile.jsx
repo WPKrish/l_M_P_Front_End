@@ -1,6 +1,7 @@
 // This is used to show User Profile on the all users page
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import avator from "../assest/avator.jpg"
 
 const UserProfile = ({ userName, userRole, userEmployeeID }) => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const UserProfile = ({ userName, userRole, userEmployeeID }) => {
   const profileBackground = {
     width: "auto",
     margin: "10px",
+    marginTop: "5px",
     padding: "10px",
     border: "1px solid #ccc",
     borderRadius: "5px",
@@ -20,24 +22,36 @@ const UserProfile = ({ userName, userRole, userEmployeeID }) => {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center", // Center-align text horizontally
-    height: "auto", // Set the height to 100% of the viewport height
+    height: "180px", // Set the height to 100% of the viewport height
   };
   const profileTopic = {
     color: "#000000",
-    fontWeight: "500",
+    fontSize: "16px",
+    fontWeight: "650",
     marginLeft: "20px",
     marginRight: "10px",
     padding: "3px",
   };
 
   const profileDetails = {
-    color: "#000000",
-    fontWeight: "450",
+    color: "#003152",
+    fontWeight: "500",
+    fontSize: "16px",
+  };
+
+  const name = {
+    color: "#003152",
+    fontWeight: "600",
+    fontSize: "20px",
+    marginLeft: "20px",
+    marginRight: "10px",
+    padding: "3px",
   };
 
   const profileDivDetails = {
     display: "flex",
     alignItems: "center",
+    marginTop: "12px",
   };
 
   ///////////
@@ -48,21 +62,48 @@ const UserProfile = ({ userName, userRole, userEmployeeID }) => {
 
   const leftDivStyle = {
     width: "86%",
+    display: "flex",
   };
 
   const rightDivStyle = {
     width: "14%",
   };
 
+  const leftDivStyle2 = {
+    width: "10%",
+    display: "flex",
+  };
+
+  const rightDivStyle2 = {
+    width: "90%",
+  };
+
   return (
     <>
       <div style={{ divStyle, ...profileBackground }}>
-        <h4 style={{ textAlign: "center", color: "#455A64" }}>My Profile</h4>
+        {/* <h4
+          style={{ textAlign: "center", color: "#455A64", fontWeight: "700" }}
+        >
+          My Profile
+        </h4> */}
         <div style={divStyle}>
           <div style={leftDivStyle}>
+            <div style={leftDivStyle2}>
+            <img
+            src={avator}
+            alt="avator"
+            className="img-fluid"
+            style={{
+              filter: "brightness(85%)",
+              maxWidth: "120px",
+              maxHeight: "130px",
+              // marginTop: "5px"
+            }}
+          />
+            </div>
+            <div style={rightDivStyle2}>
             <div style={{ ...profileDivDetails }}>
-              <label style={{ ...profileTopic }}>Name:</label>
-              <div style={{ ...profileDetails }}>{userName}</div>
+              <label style={{ ...name }}>{userName}</label>
             </div>
             <div style={{ ...profileDivDetails }}>
               <label style={{ ...profileTopic }}>Employee ID:</label>
@@ -72,9 +113,13 @@ const UserProfile = ({ userName, userRole, userEmployeeID }) => {
               <label style={{ ...profileTopic }}>Job Role:</label>
               <div style={{ ...profileDetails }}>{userRole}</div>
             </div>
+            </div>
+
+            
           </div>
-          <div style={rightDivStyle}>
-            <br></br>
+
+          <div style={{ rightDivStyle, marginRight: "10px" }}>
+            
             <button
               onClick={handleChangePasswordClick}
               style={{
