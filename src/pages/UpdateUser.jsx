@@ -2,14 +2,17 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 import UserProfile from "../components/UserProfile";
-import { rateIdOptions } from "../constant/App.constant";
+import {
+  rateIdOptionsForAdmin,
+  rateIdOptionsForLabor,
+} from "../constant/App.constant";
 import { roleIdOptions } from "../constant/App.constant";
 import { siteIdOptions } from "../constant/App.constant";
 import BackButton from "../components/BackButton";
 
 import Swal from "sweetalert2";
 import "../styles/SweeAlert2.css";
-import {defaultConfig} from "../constant/App.constant";
+import { defaultConfig } from "../constant/App.constant";
 
 const RegisterUser = () => {
   const [employeeID, setEmployeeID] = useState();
@@ -20,7 +23,7 @@ const RegisterUser = () => {
   const [address, setAddress] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [roleID, setRoleID] = useState(1);
-  const [rateID, setRateID] = useState(1);
+  const [rateID, setRateID] = useState();
   const [siteID, setSiteID] = useState(1);
   const [bloodGroup, setBloodGroup] = useState("O+");
   const [emergencyPhoneNo, setEmergencyPhoneNo] = useState("");
@@ -38,10 +41,7 @@ const RegisterUser = () => {
   const handleSelectLabor = async (event) => {
     event.preventDefault();
 
-    // Doing - get all details from data base for the place holder
-
     if (!employeeID) {
-      // alert("Please fill Employee ID firstly");
       Swal.fire({
         ...defaultConfig,
         title: "Please fill Employee ID firstly",
@@ -91,7 +91,6 @@ const RegisterUser = () => {
       !emergencyPhoneNo ||
       !emergencyName
     ) {
-      // alert("Please fill in all the required fields");
       Swal.fire({
         ...defaultConfig,
         title: "Please fill in all the required fields",
@@ -101,13 +100,14 @@ const RegisterUser = () => {
 
     // Additional check for simple username
     if (!isSimpleUsername(username)) {
-      // alert("Username can only contain simple characters");
       Swal.fire({
         ...defaultConfig,
         title: "Username can only contain simple characters",
       });
       return;
     }
+    console.log("role :", roleID);
+    console.log("rate :", rateID);
 
     try {
       await axios.put("http://localhost:8080/user", {
@@ -125,7 +125,6 @@ const RegisterUser = () => {
         emergencyPhoneNo: emergencyPhoneNo,
         emergencyName: emergencyName,
       });
-      // alert("User Update Successfully");
       Swal.fire({
         ...defaultConfig,
         icon: "success",
@@ -145,7 +144,6 @@ const RegisterUser = () => {
       setEmergencyPhoneNo("");
       setEmergencyName("");
     } catch (err) {
-      // alert("User Registation Failed");
       Swal.fire({
         ...defaultConfig,
         title: "User Registation Failed",
@@ -173,10 +171,8 @@ const RegisterUser = () => {
       <h3>Update Details</h3>
 
       {/* Find a User */}
-      <div className="salary-container">
-        <form className="salary-form">
-          {/* <br></br>
-            <h3>Labor's Salary for this month</h3> */}
+      <div className="register-container">
+        <form className="filling-form">
           <div className="command">Fill in the Employee ID Below</div>
 
           <div className="form-group">
@@ -200,7 +196,6 @@ const RegisterUser = () => {
       <div className="register-container">
         {!isEmpty && (
           <form className="register-form" style={{ width: "455px" }}>
-            {/* <h3>Update User Details</h3> */}
             <div className="command">Fill in the Information Below</div>
 
             <div className="form-group">
@@ -221,8 +216,6 @@ const RegisterUser = () => {
               <input
                 type="text"
                 name="name"
-                // placeholder="name"
-                // placeholder={userDetails.name}
                 value={name}
                 onChange={(event) => {
                   setName(event.target.value);
@@ -231,21 +224,20 @@ const RegisterUser = () => {
             </div>
 
             <div className="form-group">
-            <div>Username</div>
-            <input
-              type="text"
-              name="usernamename"
-              value={username}
-              onChange={(event) => {
-                setUsername(event.target.value);
-              }}
-            />
-          </div>
+              <div>Username</div>
+              <input
+                type="text"
+                name="usernamename"
+                value={username}
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                }}
+              />
+            </div>
 
             <div className="form-group">
               <div>Password</div>
               <input
-                // className="form-control"
                 type="password"
                 name="password"
                 placeholder="password"
@@ -255,7 +247,7 @@ const RegisterUser = () => {
               />
             </div>
 
-            <div className="form-group">
+            {/* <div className="form-group">
               <div>Birth Day</div>
               <input
                 type="date"
@@ -277,6 +269,19 @@ const RegisterUser = () => {
                   }
                 }}
               />
+            </div> */}
+
+            {/* This is used using text type for update page only */}
+            <div className="form-group">
+              <div>Birth Day</div>
+              <input
+                type="text"
+                name="birthDay"
+                value={birthDay} // Assuming birthDay is a string like "12/31/1995"
+                onChange={(event) => {
+                  setBirthDay(event.target.value);
+                }}
+              />
             </div>
 
             <div className="form-group">
@@ -284,8 +289,6 @@ const RegisterUser = () => {
               <input
                 type="text"
                 name="address"
-                //   placeholder="address"
-                // placeholder={userDetails.address}
                 value={address}
                 onChange={(event) => {
                   setAddress(event.target.value);
@@ -298,9 +301,6 @@ const RegisterUser = () => {
               <input
                 type="text"
                 name="phoneNo"
-                //   placeholder="phone Number"
-                // placeholder={userDetails.phoneNo}
-
                 value={phoneNo}
                 onChange={(event) => {
                   setPhoneNo(event.target.value);
@@ -315,7 +315,14 @@ const RegisterUser = () => {
                 name="roleID"
                 value={roleID}
                 onChange={(event) => {
+                  const newRoleID = parseInt(event.target.value, 10);
                   setRoleID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
+                  // Set default value based on roleID
+                  if (newRoleID === 1 || newRoleID === 2) {
+                    setRateID(3);
+                  } else if (newRoleID === 3) {
+                    setRateID(1);
+                  }
                 }}
               >
                 {Object.keys(roleIdOptions).map((value) => (
@@ -336,11 +343,19 @@ const RegisterUser = () => {
                   setRateID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
                 }}
               >
-                {Object.keys(rateIdOptions).map((value) => (
-                  <option key={value} value={value}>
-                    {rateIdOptions[value]}
-                  </option>
-                ))}
+                {(roleID === 1 || roleID === 2) &&
+                  Object.keys(rateIdOptionsForAdmin).map((value) => (
+                    <option key={value} value={value}>
+                      {rateIdOptionsForAdmin[value]}
+                    </option>
+                  ))}
+
+                {roleID === 3 &&
+                  Object.keys(rateIdOptionsForLabor).map((value) => (
+                    <option key={value} value={value}>
+                      {rateIdOptionsForLabor[value]}
+                    </option>
+                  ))}
               </select>
             </div>
 
@@ -365,17 +380,6 @@ const RegisterUser = () => {
               </select>
             </div>
 
-            {/* <div className="form-group">
-            <div>Site</div>
-            <input
-              type="text"
-              name="siteName"
-              //   placeholder="site name"
-              onChange={(event) => {
-                setSiteID(event.target.value);
-              }}
-            />
-          </div> */}
             <div className="form-group">
               <div>Site</div>
               <select
@@ -399,8 +403,6 @@ const RegisterUser = () => {
               <input
                 type="text"
                 name="emergencyName"
-                //   placeholder="emergency Name"
-                // placeholder={userDetails.emergencyName}
                 value={emergencyName}
                 onChange={(event) => {
                   setEmergencyName(event.target.value);
@@ -413,8 +415,6 @@ const RegisterUser = () => {
               <input
                 type="text"
                 name="emergencyPhoneNo"
-                //   placeholder="emergency PhoneNo"
-                // placeholder={userDetails.emergencyPhoneNo}
                 value={emergencyPhoneNo}
                 onChange={(event) => {
                   setEmergencyPhoneNo(event.target.value);
@@ -422,7 +422,7 @@ const RegisterUser = () => {
               />
             </div>
 
-            <button /*type="submit"*/ onClick={handleSubmit}>Update</button>
+            <button onClick={handleSubmit}>Update</button>
           </form>
         )}
       </div>

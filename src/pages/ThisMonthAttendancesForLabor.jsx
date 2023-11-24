@@ -6,7 +6,7 @@ import BackButton from "../components/BackButton";
 
 import Swal from "sweetalert2";
 import "../styles/SweeAlert2.css";
-import {defaultConfig} from "../constant/App.constant";
+import { defaultConfig } from "../constant/App.constant";
 
 const ThisMonthAttendances = () => {
   const userEmployeeID = localStorage.getItem("employeeID");
@@ -27,19 +27,16 @@ const ThisMonthAttendances = () => {
       setIsEmpty(false);
     } catch (error) {
       if (error.response.status === 404) {
-        // alert("Labor not found");
         Swal.fire({
           ...defaultConfig,
           title: "Labor not found",
         });
       } else if (error.response.status === 400) {
-        // alert("Input Details Correctly");
         Swal.fire({
           ...defaultConfig,
           title: "Input Details Correctly",
         });
       } else {
-        // alert(error);
         Swal.fire({
           ...defaultConfig,
           title: error,
@@ -74,11 +71,8 @@ const ThisMonthAttendances = () => {
       </div>
       <h3>This Month My Attendances</h3>
       <div>
-        <div className="attendances-container">
-          <form className="attendances-form">
-            {/* <br></br>
-            <h3>This Month My Attendances</h3> */}
-          </form>
+        <div>
+          <form className="attendances-form"></form>
         </div>
 
         <div className="user-topic">
@@ -97,7 +91,6 @@ const ThisMonthAttendances = () => {
             <table className="user-table">
               <thead>
                 <tr>
-                  {/* <th>Attendance ID</th> */}
                   <th>Date</th>
                   <th>In Time</th>
                   <th>Out Time</th>
@@ -108,7 +101,6 @@ const ThisMonthAttendances = () => {
               <tbody>
                 {labors.map((labor) => (
                   <tr key={labor.attID}>
-                    {/* <td>{labor.attID}</td> */}
                     <td>
                       {new Date(labor.inTime).toLocaleDateString("en-US", {
                         year: "numeric",

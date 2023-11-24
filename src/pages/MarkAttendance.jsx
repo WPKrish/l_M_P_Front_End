@@ -6,24 +6,22 @@ import BackButton from "../components/BackButton";
 
 import Swal from "sweetalert2";
 import "../styles/SweeAlert2.css";
-import {defaultConfig} from "../constant/App.constant";
+import { defaultConfig } from "../constant/App.constant";
 
 const MarkAttendance = () => {
   const [employeeIDin, setEmployeeIDin] = useState();
   const [dailyJob, setDailyJob] = useState();
   const [employeeIDOut, setEmployeeIDOut] = useState();
 
-
   const handleInTimeSubmit = async (event) => {
     event.preventDefault();
 
     if (!employeeIDin || !dailyJob) {
-      // alert("Please fill in all the required fields");
       Swal.fire({
         ...defaultConfig,
         title: "Please fill in all the required fields",
       });
-      return; // Prevent further execution
+      return;
     }
 
     try {
@@ -36,14 +34,12 @@ const MarkAttendance = () => {
         setEmployeeIDin();
         setDailyJob("");
         console.log("response :", response);
-        // alert(response.data);
         Swal.fire({
           ...defaultConfig,
           icon: "success",
           title: response.data,
         });
       } else {
-        // alert("Unexpected response from the server");
         Swal.fire({
           ...defaultConfig,
           title: "Unexpected response from the server",
@@ -52,25 +48,21 @@ const MarkAttendance = () => {
     } catch (err) {
       console.error("Error msg : ", err); // Log the error to the console for debugging
       if (err.response.status === 404) {
-        // alert(err.response.data);
         Swal.fire({
           ...defaultConfig,
           title: err.response.data,
         });
       } else if (err.response.status === 409) {
-        // alert(err.response.data);
         Swal.fire({
           ...defaultConfig,
           title: err.response.data,
         });
       } else if (err.response.status === 400) {
-        // alert("Input Details Correctly");
         Swal.fire({
           ...defaultConfig,
           title: err.response.data,
         });
       } else {
-        // alert("Attendance Marked correctly");
         Swal.fire({
           ...defaultConfig,
           title: err.response.data,
@@ -83,7 +75,6 @@ const MarkAttendance = () => {
     event.preventDefault();
 
     if (!employeeIDOut) {
-      // alert("Please fill in employeeID firstly");
       Swal.fire({
         ...defaultConfig,
         icon: "error",
@@ -96,7 +87,6 @@ const MarkAttendance = () => {
       await axios.put("http://localhost:8080/attendance/addOutTime", {
         employeeID: employeeIDOut,
       });
-      // alert("Labor offtime marking  Successfully");
       setEmployeeIDOut();
       Swal.fire({
         ...defaultConfig,
@@ -104,7 +94,6 @@ const MarkAttendance = () => {
         title: "Successful marking of off-time",
       });
     } catch (err) {
-      // alert("User Not Found");
       Swal.fire({
         ...defaultConfig,
         icon: "error",

@@ -4,8 +4,6 @@ import "../../styles/navbar.css";
 import { loadState } from "../../util/StorageManager";
 import { APP_ROLE } from "../../constant/App.constant";
 
-
-
 const GuessNavBar = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
@@ -54,50 +52,93 @@ const GuessNavBar = () => {
     }
   };
 
+  // return (
+  //   <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark" style={{height:"70px", backgroundColor:"black"}}>
+  //     <div className="container-fluid">
+  //       <a className="nav-brand" href="/">
+  //         M Labouring
+  //       </a>
+  //       <button
+  //         className="navbar-toggler"
+  //         type="button"
+  //         data-bs-toggle="collapse"
+  //         data-bs-target="#navbarColor01"
+  //         aria-controls="navbarColor01"
+  //         aria-expanded="false"
+  //         aria-label="Toggle navigation"
+  //       >
+  //         <span className="navbar-toggler-icon"></span>
+  //       </button>
+  //       <div className="collapse navbar-collapse" id="navbarColor01">
+  //         <ul className="navbar-nav m-auto">
+  //           <NavItem onClick={homeNavigationHandler} text="Home" />
+  //           <NavItem link="/about" text="About Us" />
+  //           <NavItem link="/contact" text="Contact Us" />
+  //         </ul>
+  //         <LoginForm
+  //           onLoginClick={handleLoginClick}
+  //           onLogoutClick={handleLogoutClick}
+  //         />
+  //       </div>
+  //     </div>
+  //   </nav>
+  // );
+
   return (
-    <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark" style={{height:"70px", backgroundColor:"black"}}>
-      <div className="container-fluid">
+    <nav className="mainNavdiv">
+      <div className="firstNavdiv">
         <a className="nav-brand" href="/">
           M Labouring
         </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarColor01"
-          aria-controls="navbarColor01"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarColor01">
-          <ul className="navbar-nav m-auto">
-            <NavItem onClick={homeNavigationHandler} text="Home" />
-            <NavItem link="/about" text="About Us" />
-            <NavItem link="/contact" text="Contact Us" />
-          </ul>
-          <LoginForm
-            onLoginClick={handleLoginClick}
-            onLogoutClick={handleLogoutClick}
-          />
+      </div>
+      <div className="secondNavdiv">
+        <div className="sectionDiv">
+          <NavItem onClick={homeNavigationHandler} text="Home" />
         </div>
+        <div className="sectionDiv">
+          <NavItem link="/about" text="About Us" />
+        </div>
+        <div className="sectionDiv">
+          <NavItem link="/contact" text="Contact Us" />
+        </div>
+      </div>
+      <div className="thirdNavdiv">
+        <LoginForm
+          onLoginClick={handleLoginClick}
+          onLogoutClick={handleLogoutClick}
+        /> 
       </div>
     </nav>
   );
 };
 
+// const NavItem = ({ link, text, onClick }) => (
+//   <li className="nav-item">
+//     <NavLink
+//       exact
+//       to={link}
+//       className="nav-link"
+//       activeClassName="active-link" // Custom class for active links
+//       onClick={onClick}
+//     >
+//       {text}
+//     </NavLink>
+//   </li>
+// );
+
 const NavItem = ({ link, text, onClick }) => (
-  <li className="nav-item">
-    <NavLink
-      exact
-      to={link}
-      className="nav-link"
-      activeClassName="active-link" // Custom class for active links
-      onClick={onClick}
-    >
-      {text}
-    </NavLink>
+  <li className="listStyle">
+    <div>
+      <NavLink
+        exact
+        to={link}
+        className="active-link"
+        //activeClassName="active-link" // Custom class for active links
+        onClick={onClick}
+      >
+        {text}
+      </NavLink>
+    </div>
   </li>
 );
 
@@ -106,7 +147,8 @@ const LoginForm = ({ onLoginClick, onLogoutClick }) => {
   const employeeID = localStorage.getItem("employeeID");
 
   return (
-    <form className="d-flex">
+    // <form className="d-flex">
+    <form>
       {employeeID ? (
         <button
           className="log"
@@ -117,11 +159,7 @@ const LoginForm = ({ onLoginClick, onLogoutClick }) => {
           Logout
         </button>
       ) : (
-        <button
-          className="log"
-          type="button"
-          onClick={onLoginClick}
-        >
+        <button className="log" type="button" onClick={onLoginClick}>
           Login
         </button>
       )}

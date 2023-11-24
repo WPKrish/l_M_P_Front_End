@@ -7,7 +7,7 @@ import BackButton from "../components/BackButton";
 
 import Swal from "sweetalert2";
 import "../styles/SweeAlert2.css";
-import {defaultConfig} from "../constant/App.constant";
+import { defaultConfig } from "../constant/App.constant";
 
 const ThisMonthSalaryForLabor = () => {
   const userEmployeeID = localStorage.getItem("employeeID");
@@ -22,11 +22,11 @@ const ThisMonthSalaryForLabor = () => {
     event.preventDefault();
 
     if (!year || !month) {
-      // alert("Please fill in all the required fields");
       Swal.fire({
         ...defaultConfig,
         title: "Please fill in all the required fields",
       });
+      setIsEmpty(true);
       return; // Prevent further execution
     }
 
@@ -34,23 +34,21 @@ const ThisMonthSalaryForLabor = () => {
       const response = await axios.get(
         `http://localhost:8080/attendance/monthSalary/${employeeID}/${year}/${month}`
       );
-      //   console.log(response);
       setLabors(response.data);
       setIsEmpty(false);
     } catch (error) {
       if (error.response.status === 404) {
-        // alert("Labor not found for this month");
         Swal.fire({
           ...defaultConfig,
           title: "Labor not found for this month",
         });
+        setIsEmpty(true);
       } else {
-        // alert(error);
-        // alert("Fill all details correctly");
         Swal.fire({
           ...defaultConfig,
           title: "Fill all details correctly",
         });
+        setIsEmpty(true);
       }
     }
 
@@ -84,8 +82,6 @@ const ThisMonthSalaryForLabor = () => {
       <div>
         <div className="salary-container">
           <form className="salary-form">
-            {/* <br></br>
-            <h3>Monthly My Salary</h3> */}
             <div className="command">Fill in the Information Below</div>
 
             <div className="form-group">
@@ -100,17 +96,6 @@ const ThisMonthSalaryForLabor = () => {
               />
             </div>
 
-            {/* <div className="form-group">
-            <div>Month</div>
-            <input
-              type="text"
-              placeholder="month"
-              value={month}
-              onChange={(event) => {
-                setMonth(event.target.value);
-              }}
-            />
-          </div> */}
             <div className="form-group">
               <div>Month</div>
               <select

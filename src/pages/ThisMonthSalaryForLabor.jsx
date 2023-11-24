@@ -6,7 +6,7 @@ import BackButton from "../components/BackButton";
 
 import Swal from "sweetalert2";
 import "../styles/SweeAlert2.css";
-import {defaultConfig} from "../constant/App.constant";
+import { defaultConfig } from "../constant/App.constant";
 
 const ThisMonthSalaryForLabor = () => {
   const userEmployeeID = localStorage.getItem("employeeID");
@@ -27,19 +27,16 @@ const ThisMonthSalaryForLabor = () => {
       setIsEmpty(false);
     } catch (error) {
       if (error.response.status === 404) {
-        // alert("Labor not found");
         Swal.fire({
           ...defaultConfig,
           title: "Labor not found",
         });
       } else if (error.response.status === 400) {
-        // alert("Input Details Correctly");
         Swal.fire({
           ...defaultConfig,
           title: "Input Details Correctly",
         });
       } else {
-        // alert(error);
         Swal.fire({
           ...defaultConfig,
           title: error,
@@ -75,11 +72,8 @@ const ThisMonthSalaryForLabor = () => {
       </div>
       <h3>This Month My Salary</h3>
       <div>
-        <div className="salary-container">
-          <form className="salary-form">
-            {/* <br></br>
-            <h3>This Month My Salary</h3> */}
-          </form>
+        <div>
+          <form className="salary-form"></form>
         </div>
 
         <div className="user-topic">

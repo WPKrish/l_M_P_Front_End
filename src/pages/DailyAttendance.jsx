@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/ThisMonthAttendances.css";
 import UserProfile from "../components/UserProfile";
@@ -7,7 +7,7 @@ import BackButton from "../components/BackButton";
 
 import Swal from "sweetalert2";
 import "../styles/SweeAlert2.css";
-import {defaultConfig} from "../constant/App.constant";
+import { defaultConfig } from "../constant/App.constant";
 
 const DailyAttendance = () => {
   const [attendances, setAttendances] = useState([]);
@@ -17,17 +17,19 @@ const DailyAttendance = () => {
 
   const [isEmpty, setIsEmpty] = useState(true);
 
+  const [filteredAttendances, setFilteredAttendances] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSelectLabor = async (event) => {
     event.preventDefault();
 
     if (!year || !month || !date) {
-      // alert("Please fill in all the required fields");
       Swal.fire({
         ...defaultConfig,
         title: "Please fill in all the required fields",
       });
-      return; // Prevent further execution
+      setIsEmpty(true);
+      return;
     }
 
     try {
@@ -39,22 +41,30 @@ const DailyAttendance = () => {
       setIsEmpty(false);
     } catch (error) {
       if (error.response.status === 404) {
-        // alert("Labors not found for this day");
         Swal.fire({
           ...defaultConfig,
           title: "Labors not found for this day",
         });
+        setIsEmpty(true);
       } else if (error.response.status === 400) {
-        // alert("Input Details Correctly");
         Swal.fire({
           ...defaultConfig,
-          title: "Input Details Correctly",
+          title: "Input Correct Details",
         });
+        setIsEmpty(true);
       } else {
         alert(error);
       }
     }
   };
+
+  useEffect(() => {
+    // Filter labors based on the search term
+    const filtered = attendances.filter((attendance) =>
+      attendance.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredAttendances(filtered);
+  }, [searchTerm, attendances]);
 
   // Get saved data from local storage
   const userEmployeeID = localStorage.getItem("employeeID");
@@ -77,8 +87,6 @@ const DailyAttendance = () => {
       <div>
         <div className="attendances-container">
           <form className="attendances-form">
-            {/* <br></br>
-            <h3>Monthly Labor Attendance</h3> */}
             <div className="command">Fill in the Information Below</div>
 
             <div className="form-group">
@@ -126,6 +134,20 @@ const DailyAttendance = () => {
           </form>
         </div>
 
+        {!isEmpty && (
+          <div className="searchByName">
+            <label htmlFor="search">Search by Name :</label>
+            <input
+              className="searchInput"
+              type="text"
+              id="search"
+              placeholder="Enter name....."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        )}
+
         <div className="table-container">
           {!isEmpty && (
             <table className="user-table">
@@ -139,10 +161,8 @@ const DailyAttendance = () => {
                 </tr>
               </thead>
               <tbody>
-                {attendances.map((attendance) => (
+                {filteredAttendances.map((attendance) => (
                   <tr key={attendance.attID}>
-                    {/* <td>{attendances.dailyJob}</td> */}
-                    {/* <td>{String(attendance?.employeeID)}</td> */}
                     <td
                       style={{
                         fontWeight:

@@ -9,59 +9,34 @@ const Labor = () => {
   const navigate = useNavigate();
 
   const handleGetLaborsClick = () => {
-    // Navigate to the login page
     navigate("/getlabors");
   };
   const handleGetTodayAttendanceClick = () => {
-    // Navigate to the login page
     navigate("/todayattendance");
   };
 
   const handleGetDailyAttendanceClick = () => {
-    // Navigate to the login page
     navigate("/dailyattendance");
   };
 
   // Set new page for the labor, because they don't need employeeID
-
-  // const handleGetCurrentMonthlyAttendanceClick = () => {
-  //   // Navigate to the login page
-  //   navigate("/thismonthattendance");
-  // };
   const handleGetCurrentMonthlyAttendanceForLaborClick = () => {
-    // Navigate to the login page
     navigate("/thismonthattendanceforlabor");
   };
 
-  // const handleGetCurrentMonthSalaryClick = () => {
-  //   // Navigate to the login page
-  //   navigate("/thismonthsalary");
-  // };
   const handleGetCurrentMonthSalaryForLaborClick = () => {
-    // Navigate to the login page
     navigate("/thismonthsalaryforlabor");
   };
 
-  // const handleGetMonthlySalaryClick = () => {
-  //   // Navigate to the login page
-  //   navigate("/monthlysalary");
-  // };
   const handleGetMonthlySalaryForLaborClick = () => {
-    // Navigate to the login page
     navigate("/monthlysalaryforlabor");
   };
 
-  // const handleGetMonthlyAttendanceClick = () => {
-  //   // Navigate to the login page
-  //   navigate("/monthlyattendance");
-  // };
   const handleGetMonthlyAttendanceForLaborClick = () => {
-    // Navigate to the login page
     navigate("/monthlyattendanceforlabor");
   };
 
   const handleGetMonthlyPointsClick = () => {
-    // Navigate to the login page
     navigate("/monthlypoints");
   };
 
@@ -89,22 +64,14 @@ const Labor = () => {
         <div className="mainLeftDivStyle">
           <div
             style={{
-              // border: "1px solid #ccc",
-              // padding: "5px",
-              // paddingTop: "50px",
-              // paddingBottom: "40px",
-              // borderRadius: "5px",
-              // backgroundColor: "#ECEFF1",
-              // height:"100%"
               border: "1px solid #ccc",
               padding: "5px",
               borderRadius: "5px",
               backgroundColor: "#ECEFF1",
-              height: "100%"
+              height: "100%",
             }}
           >
             <button
-              // style={{ marginTop: "20px", marginBottom: "20px" }}
               className="buttonStyleInBox"
               onClick={() => {
                 setMenu("Labors");
@@ -117,7 +84,6 @@ const Labor = () => {
             </button>
 
             <button
-              // style={{ marginTop: "20px", marginBottom: "20px" }}
               className="buttonStyleInBox"
               onClick={() => {
                 setMenu("Salary");
@@ -130,7 +96,6 @@ const Labor = () => {
             </button>
 
             <button
-              // style={{ marginTop: "20px", marginBottom: "20px" }}
               className="buttonStyleInBox"
               onClick={() => {
                 setMenu("Attendance");
@@ -161,9 +126,9 @@ const Labor = () => {
                 style={{
                   filter: "brightness(55%)",
                   height: "calc(100vh - 376px)",
-                  
-
-                  // marginTop: "5px"
+                  minHeight: "378px",
+                  objectFit: "fill",
+                  borderRadius: "5px",
                 }}
               />
             )}
@@ -188,69 +153,67 @@ const Labor = () => {
 
               {menu == "Attendance" && (
                 <>
-                <div className="subHeading">All Labors Attendances</div>
-                <div className="boarderInBothDivStyle">
-                  <div className="buttonGroupStyleInBorder">
-                    <button
-                      style={{
-                        width: "50%",
-                        marginLeft: "10px",
-                        marginRight: "10px",
-                      }}
-                      className="buttonStyle2"
-                      onClick={handleGetTodayAttendanceClick}
-                    >
-                      View Today Labor Attendances
-                    </button>
+                  <div className="subHeading">All Labors Attendance</div>
+                  <div className="boarderInBothDivStyle">
+                    <div className="buttonGroupStyleInBorder">
+                      <button
+                        style={{
+                          width: "50%",
+                          marginLeft: "10px",
+                          marginRight: "10px",
+                        }}
+                        className="buttonStyle2"
+                        onClick={handleGetTodayAttendanceClick}
+                      >
+                        View Today Labor Attendances
+                      </button>
 
-                    <button
-                      style={{
-                        width: "50%",
-                        marginLeft: "10px",
-                        marginRight: "10px",
-                      }}
-                      className="buttonStyle2"
-                      onClick={handleGetDailyAttendanceClick}
-                    >
-                      View Daily Labor Attendances
-                    </button>
+                      <button
+                        style={{
+                          width: "50%",
+                          marginLeft: "10px",
+                          marginRight: "10px",
+                        }}
+                        className="buttonStyle2"
+                        onClick={handleGetDailyAttendanceClick}
+                      >
+                        View Daily Labor Attendances
+                      </button>
+                    </div>
                   </div>
-                </div>
                 </>
               )}
 
               {menu == "Attendance" && (
                 <>
-                <div className="subHeading">My Attendances</div>
-                <div className="boarderInBothDivStyle">
-                  <div className="buttonGroupStyleInBorder">
-                    <button
-                      style={{
-                        width: "50%",
-                        marginLeft: "10px",
-                        marginRight: "10px",
-                      }}
-                      className="buttonStyle2"
-                      // onClick={handleGetCurrentMonthlyAttendanceClick}
-                      onClick={handleGetCurrentMonthlyAttendanceForLaborClick}
-                    >
-                      View This Month My Attendances
-                    </button>
+                  <div className="subHeading">My Attendance</div>
+                  <div className="boarderInBothDivStyle">
+                    <div className="buttonGroupStyleInBorder">
+                      <button
+                        style={{
+                          width: "50%",
+                          marginLeft: "10px",
+                          marginRight: "10px",
+                        }}
+                        className="buttonStyle2"
+                        onClick={handleGetCurrentMonthlyAttendanceForLaborClick}
+                      >
+                        View This Month My Attendances
+                      </button>
 
-                    <button
-                      style={{
-                        width: "50%",
-                        marginLeft: "10px",
-                        marginRight: "10px",
-                      }}
-                      className="buttonStyle2"
-                      // onClick={handleGetMonthlyAttendanceClick}
-                      onClick={handleGetMonthlyAttendanceForLaborClick}
-                    >
-                      View Monthly My Attendaces
-                    </button>
+                      <button
+                        style={{
+                          width: "50%",
+                          marginLeft: "10px",
+                          marginRight: "10px",
+                        }}
+                        className="buttonStyle2"
+                        onClick={handleGetMonthlyAttendanceForLaborClick}
+                      >
+                        View Monthly My Attendaces
+                      </button>
+                    </div>
                   </div>
-                </div>
                 </>
               )}
 
@@ -258,7 +221,6 @@ const Labor = () => {
                 <div className="buttonGroupStyle">
                   <button
                     className="buttonStyle2"
-                    // onClick={handleGetCurrentMonthSalaryClick}
                     onClick={handleGetCurrentMonthSalaryForLaborClick}
                   >
                     View This Month My Salary
@@ -266,7 +228,6 @@ const Labor = () => {
 
                   <button
                     className="buttonStyle2"
-                    // onClick={handleGetMonthlySalaryClick}
                     onClick={handleGetMonthlySalaryForLaborClick}
                   >
                     View Monthly My Salary

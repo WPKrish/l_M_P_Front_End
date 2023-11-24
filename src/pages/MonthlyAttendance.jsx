@@ -7,7 +7,7 @@ import BackButton from "../components/BackButton";
 
 import Swal from "sweetalert2";
 import "../styles/SweeAlert2.css";
-import {defaultConfig} from "../constant/App.constant";
+import { defaultConfig } from "../constant/App.constant";
 
 const MonthlyAttendance = () => {
   const [labors, setLabors] = useState([]);
@@ -17,18 +17,16 @@ const MonthlyAttendance = () => {
   const [laborDetails, setLaborDetails] = useState([]);
   const [isEmpty, setIsEmpty] = useState(true);
 
-
-
   const handleSelectLabor = async (event) => {
     event.preventDefault();
 
     if (!employeeID || !year || !month) {
-      // alert("Please fill in all the required fields");
       Swal.fire({
         ...defaultConfig,
         title: "Please fill in all the required fields",
       });
-      return; // Prevent further execution
+      setIsEmpty(true);
+      return;
     }
 
     try {
@@ -40,23 +38,23 @@ const MonthlyAttendance = () => {
       setIsEmpty(false);
     } catch (error) {
       if (error.response.status === 404) {
-        // alert("Labor not found for this month");
         Swal.fire({
           ...defaultConfig,
           title: "Labor not found for this month",
         });
+        setIsEmpty(true);
       } else if (error.response.status === 400) {
-        // alert("Input Details Correctly");
         Swal.fire({
           ...defaultConfig,
           title: "Input Details Correctly",
         });
+        setIsEmpty(true);
       } else {
-        // alert(error);
         Swal.fire({
           ...defaultConfig,
           title: "Input Details Correctly",
         });
+        setIsEmpty(true);
       }
     }
 
@@ -91,8 +89,6 @@ const MonthlyAttendance = () => {
       <div>
         <div className="attendances-container">
           <form className="attendances-form">
-            {/* <br></br>
-            <h3>Monthly Labor Attendance</h3> */}
             <div className="command">Fill in the Information Below</div>
 
             <div className="form-group">
@@ -156,7 +152,6 @@ const MonthlyAttendance = () => {
             <table className="user-table">
               <thead>
                 <tr>
-                  {/* <th>Attendance ID</th> */}
                   <th>Date</th>
                   <th>In Time</th>
                   <th>Out Time</th>
@@ -167,7 +162,6 @@ const MonthlyAttendance = () => {
               <tbody>
                 {labors.map((labor) => (
                   <tr key={labor.attID}>
-                    {/* <td>{labor.attID}</td> */}
                     <td>
                       {new Date(labor.inTime).toLocaleDateString("en-US", {
                         year: "numeric",

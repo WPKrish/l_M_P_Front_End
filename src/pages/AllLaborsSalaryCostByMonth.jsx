@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/ThisMonthSalary.css";
 import UserProfile from "../components/UserProfile";
@@ -7,7 +7,7 @@ import BackButton from "../components/BackButton";
 
 import Swal from "sweetalert2";
 import "../styles/SweeAlert2.css";
-import {defaultConfig} from "../constant/App.constant";
+import { defaultConfig } from "../constant/App.constant";
 
 const AllLaborsSalaryCostByMonth = () => {
   const [labors, setLabors] = useState([]);
@@ -16,16 +16,19 @@ const AllLaborsSalaryCostByMonth = () => {
   const [isEmpty, setIsEmpty] = useState(true);
   const [fullSalary, setFullSalary] = useState();
 
+  const [filteredLabors, setFilteredLabors] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const handleSelectLabor = async (event) => {
     event.preventDefault();
 
     if (!month || !year) {
-      // alert("Please fill in all the required fields");
       Swal.fire({
         ...defaultConfig,
         title: "Please fill in all the required fields",
       });
-      return; // Prevent further execution
+      setIsEmpty(true);
+      return;
     }
 
     try {
@@ -37,18 +40,17 @@ const AllLaborsSalaryCostByMonth = () => {
       setIsEmpty(false);
     } catch (error) {
       if (error.response.status === 404) {
-        // alert("Labors not found for this month");
         Swal.fire({
           ...defaultConfig,
           title: "Labors not found for this month",
         });
+        setIsEmpty(true);
       } else {
-        // alert(error);
-        // alert("Fill all details correctly");
         Swal.fire({
           ...defaultConfig,
           title: "Fill all details correctly",
         });
+        setIsEmpty(true);
       }
     }
 
@@ -61,6 +63,14 @@ const AllLaborsSalaryCostByMonth = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    // Filter labors based on the search term
+    const filtered = labors.filter((labor) =>
+      labor.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredLabors(filtered);
+  }, [searchTerm, labors]);
 
   // Get saved data from local storage
   const userEmployeeID = localStorage.getItem("employeeID");
@@ -85,8 +95,6 @@ const AllLaborsSalaryCostByMonth = () => {
       <div>
         <div className="salary-container">
           <form className="salary-form">
-            {/* <br></br>
-            <h3>All Labors Salary per Month</h3> */}
             <div className="command">Fill in the Information Below</div>
 
             <div className="form-group">
@@ -129,6 +137,19 @@ const AllLaborsSalaryCostByMonth = () => {
             </p>
           )}
         </div>
+        {!isEmpty && (
+          <div className="searchByName">
+            <label htmlFor="search">Search by Name :</label>
+            <input
+              className="searchInput"
+              type="text"
+              id="search"
+              placeholder="Enter name....."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        )}
 
         <div className="table-container">
           {!isEmpty && (
@@ -145,7 +166,7 @@ const AllLaborsSalaryCostByMonth = () => {
                 </tr>
               </thead>
               <tbody>
-                {labors.map((labor) => (
+                {filteredLabors.map((labor) => (
                   <tr key={labor.employeeID}>
                     <td>{labor.employeeID}</td>
                     <td>{labor.name}</td>

@@ -18,11 +18,11 @@ const ThisMonthSalary = () => {
     event.preventDefault();
 
     if (!employeeID) {
-      // alert("Please fill Employee ID firstly");
       Swal.fire({
         ...defaultConfig,
         title: "Please fill in all the required fields",
       });
+      setIsEmpty(true);
       return; // Prevent further execution
     }
 
@@ -35,23 +35,23 @@ const ThisMonthSalary = () => {
       setIsEmpty(false);
     } catch (error) {
       if (error.response.status === 404) {
-        // alert("Labor not found");
         Swal.fire({
           ...defaultConfig,
           title: "Labor not found",
         });
+        setIsEmpty(true);
       } else if (error.response.status === 400) {
-        // alert("Input Details Correctly");
         Swal.fire({
           ...defaultConfig,
           title: "Input Details Correctly",
         });
+        setIsEmpty(true);
       } else {
-        // alert(error);
         Swal.fire({
           ...defaultConfig,
           title: error,
         });
+        setIsEmpty(true);
       }
     }
 
@@ -86,8 +86,6 @@ const ThisMonthSalary = () => {
       <div>
         <div className="salary-container">
           <form className="salary-form">
-            {/* <br></br>
-            <h3>Labor's Salary for this month</h3> */}
             <div className="command">Fill in the Information Below</div>
 
             <div className="form-group">

@@ -15,8 +15,8 @@ const About = () => {
           M Construction
         </h2>
         <p className="home-description">
-          M Construction, a company that offers construction services in
-          Sri Lanka. Here is a possible description for this page:{" "}
+          M Construction, a company that offers construction services in Sri
+          Lanka. Here is a possible description for this page:{" "}
         </p>
         <br></br>
 

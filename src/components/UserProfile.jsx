@@ -1,7 +1,7 @@
 // This is used to show User Profile on the all users page
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import avator from "../assest/avator.jpg"
+import avator from "../assest/avator.jpg";
 
 const UserProfile = ({ userName, userRole, userEmployeeID }) => {
   const navigate = useNavigate();
@@ -51,26 +51,27 @@ const UserProfile = ({ userName, userRole, userEmployeeID }) => {
   const profileDivDetails = {
     display: "flex",
     alignItems: "center",
-    marginTop: "12px",
+    marginTop: "10px",
+    marginBottom: "10px",
   };
 
   ///////////
-  const divStyle = {
+  const profileDivStyle = {
     display: "flex",
     justifyContent: "space-between",
   };
 
-  const leftDivStyle = {
+  const ProfileLeftDivStyle = {
     width: "86%",
     display: "flex",
   };
 
-  const rightDivStyle = {
-    width: "14%",
+  const ProfileRightDivStyle = {
+    // width: "14%",
   };
 
   const leftDivStyle2 = {
-    width: "10%",
+    width: "120px",
     display: "flex",
   };
 
@@ -80,46 +81,36 @@ const UserProfile = ({ userName, userRole, userEmployeeID }) => {
 
   return (
     <>
-      <div style={{ divStyle, ...profileBackground }}>
-        {/* <h4
-          style={{ textAlign: "center", color: "#455A64", fontWeight: "700" }}
-        >
-          My Profile
-        </h4> */}
-        <div style={divStyle}>
-          <div style={leftDivStyle}>
+      <div style={profileBackground}>
+        <div style={profileDivStyle}>
+          <div style={ProfileLeftDivStyle}>
             <div style={leftDivStyle2}>
-            <img
-            src={avator}
-            alt="avator"
-            className="img-fluid"
-            style={{
-              filter: "brightness(85%)",
-              maxWidth: "120px",
-              maxHeight: "130px",
-              // marginTop: "5px"
-            }}
-          />
+              <img
+                src={avator}
+                alt="avator"
+                className="img-fluid"
+                style={{
+                  filter: "brightness(85%)",
+                  width: "120px",
+                }}
+              />
             </div>
             <div style={rightDivStyle2}>
-            <div style={{ ...profileDivDetails }}>
-              <label style={{ ...name }}>{userName}</label>
+              <div style={{ ...profileDivDetails }}>
+                <label style={{ ...name }}>{userName}</label>
+              </div>
+              <div style={{ ...profileDivDetails }}>
+                <label style={{ ...profileTopic }}>Employee ID:</label>
+                <div style={{ ...profileDetails }}>{userEmployeeID}</div>
+              </div>
+              <div style={{ ...profileDivDetails }}>
+                <label style={{ ...profileTopic }}>Job Role:</label>
+                <div style={{ ...profileDetails }}>{userRole}</div>
+              </div>
             </div>
-            <div style={{ ...profileDivDetails }}>
-              <label style={{ ...profileTopic }}>Employee ID:</label>
-              <div style={{ ...profileDetails }}>{userEmployeeID}</div>
-            </div>
-            <div style={{ ...profileDivDetails }}>
-              <label style={{ ...profileTopic }}>Job Role:</label>
-              <div style={{ ...profileDetails }}>{userRole}</div>
-            </div>
-            </div>
-
-            
           </div>
 
-          <div style={{ rightDivStyle, marginRight: "10px" }}>
-            
+          <div>
             <button
               onClick={handleChangePasswordClick}
               style={{

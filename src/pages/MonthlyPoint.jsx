@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/ThisMonthSalary.css";
 import UserProfile from "../components/UserProfile";
@@ -7,7 +7,7 @@ import BackButton from "../components/BackButton";
 
 import Swal from "sweetalert2";
 import "../styles/SweeAlert2.css";
-import {defaultConfig} from "../constant/App.constant";
+import { defaultConfig } from "../constant/App.constant";
 
 const MontlyPoint = () => {
   const [labors, setLabors] = useState([]);
@@ -15,16 +15,19 @@ const MontlyPoint = () => {
   const [month, setMonth] = useState();
   const [isEmpty, setIsEmpty] = useState(true);
 
+  const [filteredLabors, setFilteredLabors] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const handleSelectLabor = async (event) => {
     event.preventDefault();
 
     if (!month || !year) {
-      // alert("Please fill in all the required fields");
       Swal.fire({
         ...defaultConfig,
         title: "Please fill in all the required fields",
       });
-      return; // Prevent further execution
+      setIsEmpty(true);
+      return;
     }
 
     try {
@@ -36,21 +39,28 @@ const MontlyPoint = () => {
       setIsEmpty(false);
     } catch (error) {
       if (error.response.status === 404) {
-        // alert("Labor not found for this month");
         Swal.fire({
           ...defaultConfig,
-          title: "Labor not found for this month",
+          title: "Labors not found for this month",
         });
+        setIsEmpty(true);
       } else {
-        // alert(error);
-        // alert("Fill all details correctly");
         Swal.fire({
           ...defaultConfig,
           title: "Fill all details correctly",
         });
+        setIsEmpty(true);
       }
     }
   };
+
+  useEffect(() => {
+    // Filter labors based on the search term
+    const filtered = labors.filter((labor) =>
+      labor.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredLabors(filtered);
+  }, [searchTerm, labors]);
 
   // Get saved data from local storage
   const userEmployeeID = localStorage.getItem("employeeID");
@@ -73,7 +83,6 @@ const MontlyPoint = () => {
       <div>
         <div className="salary-container">
           <form className="salary-form">
-            {/* <h3>All Labors Points per this Month</h3> */}
             <div className="command">Fill in the Information Below</div>
 
             <div className="form-group">
@@ -108,6 +117,20 @@ const MontlyPoint = () => {
           </form>
         </div>
 
+        {!isEmpty && (
+          <div className="searchByName">
+            <label htmlFor="search">Search by Name :</label>
+            <input
+              className="searchInput"
+              type="text"
+              id="search"
+              placeholder="Enter name....."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        )}
+
         <div className="table-container">
           {!isEmpty && (
             <table className="user-table">
@@ -124,17 +147,7 @@ const MontlyPoint = () => {
                 </tr>
               </thead>
               <tbody>
-                {labors.map((labor) => (
-                  // <tr key={labor.employeeID}>
-                  //   <td>{labor.employeeID}</td>
-                  //   <td>{labor.name}</td>
-                  //   <td>
-                  //     {labor.month} {labor.year}
-                  //   </td>
-
-                  //   <td>{labor.pointSum}</td>
-                  //   <td>{labor.pointIDCount}</td>
-                  // </tr>
+                {filteredLabors.map((labor) => (
                   <tr key={labor.employeeID}>
                     <td
                       style={{

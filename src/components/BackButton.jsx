@@ -11,13 +11,13 @@ const BackButton = () => {
   };
 
   const buttonStyle = {
-    // marginLeft:"10px",
     marginTop:"5px",
     fontSize:"15px",
+    fontWeight:"200",
     padding:"5px",
     height:"35px",
-    paddingLeft:"30px",
-    paddingRight:"30px",
+    paddingLeft:"20px",
+    paddingRight:"20px",
     backgroundColor: "#444444",
     textTransform: "capitalize",
     

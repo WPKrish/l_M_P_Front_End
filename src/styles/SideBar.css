@@ -14,15 +14,6 @@ html {
 }
 
 .single-page-sidebar {
-  /* width: 20%;
-    height: 100%;
-    background: #3498db;
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border-radius: 5px;
-    top: 0; */
   width: 15%; /* Set the width according to your design */
   height: 89vh; /* Make it full height */
   background-color: #daded1; /* Set your desired background color */

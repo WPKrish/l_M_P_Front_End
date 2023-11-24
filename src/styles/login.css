@@ -1,107 +1,150 @@
-Add a background image to the body
-.login-container {
-    font-family: Arial, sans-serif;
-    /* background: linear-gradient(to bottom, #6d6c6c, #000000); */
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    margin: auto;
-    padding: auto;
+Add a background image to the body .loginContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Add curved edges */
+.container {
+  border-radius: rem;
+}
+
+/* Additional stylings */
+.left-side {
+  padding-top: 25%;
+  width: auto;
+  height: auto;
+  margin: 0 auto 1rem;
+  padding-top: 2.5%;
+}
+
+.row {
+  display: flex;
+}
+
+.login {
+  font-size: 25px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.info {
+  font-size: 18px;
+  font-weight: 350;
+}
+
+.lbutton {
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 14px;
+  font-weight: 450;
+}
+
+.lbutton:hover {
+  transform: scale(1.1);
+}
+
+.lbutton:active {
+  transform: scale(0.95);
+}
+
+.form-outline {
+  margin-bottom: 2rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #d5d5d5;
+  border-radius: 0.8rem;
+  outline: none;
+}
+.img-fluid {
+  width: 100%;
+  height: 100%;
+}
+
+.logDivStyle {
+  height: calc(100vh - 245px);
+  min-height: 455px;
+  margin: 60px;
+  padding: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #eceff1;
+}
+
+.logLeftDivStyle {
+  width: 50%;
+  margin-right: 15px;
+  height: calc(100vh - 365px);
+  min-height: 335px;
+  display: flex;
+  align-items: center;
+}
+
+.logRightDivStyle {
+  width: 50%;
+  height: calc(100vh - 365px);
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+  min-height: 335px;
+}
+
+.loginImageStyle {
+  filter: brightness(50%);
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  border-radius: 5px;
+}
+
+.loginFormStyle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-height: 700px) {
+  .loginContainer {
+    height: calc(570px);
+  }
+  .loginImageStyle {
+    height: 80%;
+  }
+
+  .loginFormStyle {
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: center; /* Add this line to center the container vertically */
-    min-height: 70vh;
+    font-size: 12px;
   }
-   
-   
-   
-    /* Add curved edges */
-    .container {
-      border-radius: rem;
-      /* margin-top: 2.5rem; */
-      /* padding: 2.5rem;  */
+}
+
+@media screen and (max-width: 555px) {
+  .container {
+    border-radius: 0;
   }
-   
-    /* Additional stylings */
-    .left-side {
-      padding-top: 25%;
-      width: auto;
-      height: auto;
-      margin: 0 auto 1rem;
-      padding-top: 2.5%;
-    }
 
-   
-    .row {
-      display: flex;
-    }
-   
-    .form-outline {
-      margin-bottom: 2rem;
-    }
-   
-    .form-control {
-      width: 100%;
-      padding: 1rem;
-      border: 1px solid #d5d5d5;
-      border-radius: 0.8rem;
-      outline: none;
-     
-    }
-    .img-fluid{
-      width: 100%;
-      height: 100%;
-   
-    }
+  .row {
+    flex-direction: column;
+  }
 
-    .logDivStyle {
-      display: flex;
-      justify-content: space-between;
-      margin: 10px;
-      margin-right: 10px;
-      height: calc(100vh - 365px);
-      display:flow;
-      width:90%;
-      /* border: 2px solid #ccc; */
-    }
-    
-    .logLeftDivStyle {
-      width: 50%;
-      margin-right: 20px;
-      height: calc(100vh - 365px);
-    }
-    
-    .logRightDivStyle {
-      width: 70%;
-      height: calc(100vh - 365px);
-      display:flex;
-      align-items :center;
-      width:50%;
-      margin-left:20px
-      
-    }
-   
-   
-    @media screen and (max-width: 555px) {
-      .container {
-        border-radius: 0;
-      }
-   
-      .row {
-        flex-direction: column;
-      }
-   
-      .col-md-6 {
-        padding: 0;
-      }
-   
-      .form-section {
-        padding: 2rem;
-      }
-   
-      .form-control,
-      .btn-login {
-        margin: 0.5rem 0;
-      }
-    }
+  .col-md-6 {
+    padding: 0;
+  }
+
+  .form-section {
+    padding: 2rem;
+  }
+
+  .form-control,
+  .btn-login {
+    margin: 0.5rem 0;
+  }
+}

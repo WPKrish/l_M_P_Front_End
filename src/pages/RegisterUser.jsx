@@ -1,14 +1,10 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../styles/Register.css";
 import UserProfile from "../components/UserProfile";
 import {
-  adminRateIdOptions,
-  labourateIdOptions,
-  rateIdOptions,
   rateIdOptionsForAdmin,
   rateIdOptionsForLabor,
-  supervisorRateIdOptions,
 } from "../constant/App.constant";
 import { roleIdOptions } from "../constant/App.constant";
 import { siteIdOptions } from "../constant/App.constant";
@@ -16,7 +12,7 @@ import BackButton from "../components/BackButton";
 
 import Swal from "sweetalert2";
 import "../styles/SweeAlert2.css";
-import {defaultConfig} from "../constant/App.constant";
+import { defaultConfig } from "../constant/App.constant";
 
 const RegisterUser = () => {
   const [name, setName] = useState("");
@@ -26,12 +22,20 @@ const RegisterUser = () => {
   const [address, setAddress] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [roleID, setRoleID] = useState(1);
-  const [rateID, setRateID] = useState(3);
+  const [rateID, setRateID] = useState();
   const [siteID, setSiteID] = useState(1);
   const [bloodGroup, setBloodGroup] = useState("O+");
   const [emergencyPhoneNo, setEmergencyPhoneNo] = useState("");
   const [emergencyName, setEmergencyName] = useState("");
-  // const [salaryArr, setSalaryArr] = useState([]);
+
+  useEffect(() => {
+    // Set default value based on roleID
+    if (roleID === 1 || roleID === 2) {
+      setRateID(3);
+    } else if (roleID === 3) {
+      setRateID(1);
+    }
+  }, [roleID]);
 
   const isSimpleUsername = (username) => {
     // Define a regular expression pattern for simple characters (alphabets, numbers, underscores)
@@ -56,17 +60,15 @@ const RegisterUser = () => {
       !emergencyPhoneNo ||
       !emergencyName
     ) {
-      // alert("Please fill in all the required fields");
       Swal.fire({
         ...defaultConfig,
         title: "Please fill in all the required fields",
       });
-      return; // Prevent further execution
+      return;
     }
 
     // Additional check for simple username
     if (!isSimpleUsername(username)) {
-      // alert("Username can only contain simple characters");
       Swal.fire({
         ...defaultConfig,
         title: "Username can only contain simple characters",
@@ -89,10 +91,9 @@ const RegisterUser = () => {
         emergencyPhoneNo: emergencyPhoneNo,
         emergencyName: emergencyName,
       });
-      // alert("User Registation Successfully");
       Swal.fire({
         ...defaultConfig,
-        icon:"success",
+        icon: "success",
         title: "User Registation Successfully",
       });
       setRoleID();
@@ -107,9 +108,7 @@ const RegisterUser = () => {
       setBloodGroup("");
       setEmergencyPhoneNo("");
       setEmergencyName("");
-      // setSalaryArr([]);
     } catch (err) {
-      // alert("User Registation Failed");
       Swal.fire({
         ...defaultConfig,
         title: "User Registation Failed",
@@ -117,53 +116,13 @@ const RegisterUser = () => {
     }
   };
 
-  // const roleIdOptions = {
-  //   1: "Admin",
-  //   2: "Supervisor",
-  //   3: "Labor",
-  // };
-
-  // const rateIdOptions = {
-  //   1: "Skilled Labor",
-  //   2: "Non Skilled Labor",
-  //   3: "Officer",
-  // };
-
-  // const siteIdOptions = {
-  //   1: "Colombo 2",
-  //   2: "Dehevala",
-  // };
-
   // Get saved data from local storage
   const userEmployeeID = localStorage.getItem("employeeID");
   const userName = JSON.parse(localStorage.getItem("name")); // Get String from local storage without double quotation
   const userRole = JSON.parse(localStorage.getItem("role"));
 
-  // const jobRoleHandler = (event) => {
-
-  //   // const jobRoleId = event.target.value;
-  //   // setRoleID(jobRoleId);
-
-  //     setRoleID(event.target.value);
-
-  //   // if role admin -> admin arr
-  //   // if role labour -> labour arr
-
-  //   let tempArr = [];
-
-  //   if (roleID === 1) {
-  //     tempArr = adminRateIdOptions;
-  //   } else if (roleID === 2) {
-  //     tempArr = supervisorRateIdOptions;
-  //   } else {
-  //     tempArr = labourateIdOptions;
-  //   }
-
-  //   setSalaryArr(tempArr);
-
-  //   setRateID(tempArr?.id);
-  // };
-
+  console.log("role :", roleID);
+  console.log("rate :", rateID);
   return (
     <>
       <div>
@@ -179,8 +138,7 @@ const RegisterUser = () => {
       <h3>Registration Form</h3>
 
       <div className="register-container">
-        <form className="register-form" /*onSubmit={handleSubmit}*/>
-          {/* <h3>User Registration</h3> */}
+        <form className="register-form">
           <div className="command">Fill in the Information Below</div>
 
           <div className="form-group">
@@ -210,7 +168,6 @@ const RegisterUser = () => {
           <div className="form-group">
             <div>Password</div>
             <input
-              // className="form-control"
               type="password"
               name="password"
               placeholder="password"
@@ -219,19 +176,6 @@ const RegisterUser = () => {
               }}
             />
           </div>
-
-          {/* <div className="form-group">
-            <div>Birth Day</div>
-            <input
-              type="date"
-              name="birthDay"
-              dateFormat="dd/MM/yy"
-              placeholder="format : dd/mm/yy"
-              onChange={(event) => {
-                setBirthDay(event.target.value);
-              }}
-            />
-          </div> */}
 
           <div className="form-group">
             <div>Birth Day</div>
@@ -277,43 +221,6 @@ const RegisterUser = () => {
             />
           </div>
 
-          {/* <div className="form-group">
-            <div>Salary Type</div>
-            <select
-              id="rateID"
-              name="rateID"
-              onChange={(event) => {
-                setRateID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
-              }}
-            >
-              {Object.keys(rateIdOptions).map((value) => (
-                <option key={value} value={value}>
-                  {rateIdOptions[value]}
-                </option>
-              ))}
-            </select>
-          </div> */}
-
-          {/* <div className="form-group">
-            <div>Salary Type</div>
-            <select
-              id="rateID"
-              name="rateID"
-              // value={}
-              onChange={(event) => {
-                setRateID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
-              }}
-            >
-              {salaryArr.map((salary, i) => {
-                return (
-                  <option key={i} value={salary.id}>
-                    {salary.label}
-                  </option>
-                );
-              })}
-            </select>
-          </div> */}
-
           <div className="form-group">
             <div>Job Role</div>
             <select
@@ -343,12 +250,19 @@ const RegisterUser = () => {
                 setRateID(parseInt(event.target.value, 10)); // Parse the selected value to an integer
               }}
             >
-              
-              {Object.keys(rateIdOptions).map((value) => (
-                <option key={value} value={value}>
-                  {rateIdOptions[value]}
-                </option>
-              ))}
+              {(roleID === 1 || roleID === 2) &&
+                Object.keys(rateIdOptionsForAdmin).map((value) => (
+                  <option key={value} value={value}>
+                    {rateIdOptionsForAdmin[value]}
+                  </option>
+                ))}
+
+              {roleID === 3 &&
+                Object.keys(rateIdOptionsForLabor).map((value) => (
+                  <option key={value} value={value}>
+                    {rateIdOptionsForLabor[value]}
+                  </option>
+                ))}
             </select>
           </div>
 
@@ -372,17 +286,6 @@ const RegisterUser = () => {
             </select>
           </div>
 
-          {/* <div className="form-group">
-            <div>Site</div>
-            <input
-              type="text"
-              name="siteName"
-              //   placeholder="site name"
-              onChange={(event) => {
-                setSiteID(event.target.value);
-              }}
-            />
-          </div> */}
           <div className="form-group">
             <div>Site</div>
             <select
@@ -423,7 +326,6 @@ const RegisterUser = () => {
               }}
             />
           </div>
-
           <button onClick={handleSubmit}>Register</button>
         </form>
       </div>

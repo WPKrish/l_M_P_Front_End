@@ -6,7 +6,7 @@ import BackButton from "../components/BackButton";
 
 import Swal from "sweetalert2";
 import "../styles/SweeAlert2.css";
-import {defaultConfig} from "../constant/App.constant";
+import { defaultConfig } from "../constant/App.constant";
 
 const RemoveUser = () => {
   const [employeeID, setEmployeeID] = useState();
@@ -15,12 +15,11 @@ const RemoveUser = () => {
     event.preventDefault();
 
     if (!employeeID) {
-      // alert("Please fill in emplyee ID firsty");
       Swal.fire({
         ...defaultConfig,
         title: "Please fill in all the required fields",
       });
-      return; // Prevent further execution
+      return;
     }
 
     try {
@@ -28,21 +27,18 @@ const RemoveUser = () => {
         `http://localhost:8080/user/${employeeID}`
       );
       console.log(response);
-      // alert("User Successfully Removed");
       Swal.fire({
         ...defaultConfig,
-        icon:"success",
+        icon: "success",
         title: "User Successfully Deleted",
       });
     } catch (error) {
       if (error.response.status === 404) {
-        // alert("User not found");
         Swal.fire({
           ...defaultConfig,
           title: "User not found",
         });
       } else {
-        // alert("User not deleted");
         Swal.fire({
           ...defaultConfig,
           title: "User not removed",
@@ -71,8 +67,6 @@ const RemoveUser = () => {
       <h3>Remove</h3>
       <div className="remove-container">
         <form className="remove-form">
-          {/* <br></br>
-          <h3>Remove User</h3> */}
           <div className="command">Fill in the Information Below</div>
 
           <div className="form-group">

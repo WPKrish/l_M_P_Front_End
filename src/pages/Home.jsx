@@ -10,14 +10,9 @@ const Home = () => {
           className="home-title"
           style={{ color: "#26495B", marginTop: "10px" }}
         >
-          M Labouring
+          M Labouring System
         </h2>
-        <h2
-          className="home-title"
-          style={{ color: "#26495B", marginBottom: "15px" }}
-        >
-          System
-        </h2>
+
         <p className="home-description">
           "Welcome to our Labor Management System, where efficiency meets
           excellence{" "}
@@ -33,7 +28,7 @@ const Home = () => {
         </p>
       </div>
 
-      <div className="container mt-4 home-image-container">
+      <div className="home-image-container">
         <img src={Main} alt="Description" className="home-image" />
       </div>
     </React.Fragment>

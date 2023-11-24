@@ -1,6 +1,16 @@
 /* Add this CSS to your stylesheet */
+.nav-brand{
+    color: aliceblue;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight:600;
+    text-transform: uppercase;
+}
 .active-link {
  color: white;
+ text-decoration: none;
+ font-size: 16px;
+ font-weight:450;
 }
 
 .log{
@@ -10,12 +20,64 @@
     width: 90px;
 }
 
-.nav-brand{
-    color: aliceblue;
-    text-decoration: none;
-    font-size: 18px;
+.listStyle{
+    list-style: none;
 }
 
+/*  */
+.mainNavdiv{
+    display:flex;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+    background-color: black;
+}
+.firstNavdiv{
+    display:flex;
+    align-items: center;
+    width: 25%;
+    min-height: 175px;
+    color:aliceblue;
+    padding-left: 20px;
+}
+.secondNavdiv{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    color:aliceblue;
+}
+.thirdNavdiv{
+    display:flex;
+    justify-content: right;
+    align-items: center;
+    width: 25%;
+    color:aliceblue;
+    padding-right: 20px;
+}
+.sectionDiv{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:200px;
+}
+
+
+@media screen and (max-width: 1210px){
+    .nav-brand{font-size: 15px;
+        font-weight:500;
+    }
+    .active-link {
+     font-size: 15px;
+     font-weight:400;
+    }
+    
+    .log{
+        font-weight: 400;
+        padding: 5px;
+    }
+
+}
 
 
 

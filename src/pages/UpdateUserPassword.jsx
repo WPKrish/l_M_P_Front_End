@@ -6,7 +6,7 @@ import BackButton from "../components/BackButton";
 
 import Swal from "sweetalert2";
 import "../styles/SweeAlert2.css";
-import {defaultConfig} from "../constant/App.constant";
+import { defaultConfig } from "../constant/App.constant";
 
 const UpdateUserPassword = () => {
   // Get saved data from local storage
@@ -23,7 +23,6 @@ const UpdateUserPassword = () => {
     event.preventDefault();
 
     if (!oldPassword || !password || !confirmPassword) {
-      // alert("Please fill in all the required fields");
       Swal.fire({
         ...defaultConfig,
         title: "Please fill in all the required fields",
@@ -33,7 +32,6 @@ const UpdateUserPassword = () => {
 
     // Check if the new password and confirm password match
     if (password !== confirmPassword) {
-      // alert("New password and confirm password do not match");
       Swal.fire({
         ...defaultConfig,
         title: "New password not match",
@@ -49,20 +47,17 @@ const UpdateUserPassword = () => {
       });
       console.log("Data : ", response.data);
       if (response.data == "Requested User not exist") {
-        // alert(response.data);
         Swal.fire({
           ...defaultConfig,
           title: response.data,
         });
       } else if (response.data == "Successfully Changed the password") {
-        // alert(response.data);
         Swal.fire({
           ...defaultConfig,
-          icon:"success",
+          icon: "success",
           title: response.data,
         });
       } else if (response.data == "Old password is wrong") {
-        // alert(response.data);
         Swal.fire({
           ...defaultConfig,
           title: response.data,
@@ -74,7 +69,6 @@ const UpdateUserPassword = () => {
       setOldPassword("");
       setConfirmPassword("");
     } catch (err) {
-      // alert("User Not Exits");
       Swal.fire({
         ...defaultConfig,
         title: "User Not Exits",
@@ -100,22 +94,9 @@ const UpdateUserPassword = () => {
           {/* <h3>Update User Details</h3> */}
           <div className="command">Fill in the Information Below</div>
 
-          {/* <div className="form-group">
-            <div>Employee ID</div>
-            <input
-              type="id"
-              name="employeeID"
-              placeholder="Employee ID"
-              onChange={(event) => {
-                setEmployeeID(event.target.value);
-              }}
-            />
-          </div> */}
-
           <div className="form-group">
             <div>Old Password</div>
             <input
-              // className="form-control"
               type="password"
               name="password"
               placeholder="old password"
@@ -128,7 +109,6 @@ const UpdateUserPassword = () => {
           <div className="form-group">
             <div>New Password</div>
             <input
-              // className="form-control"
               type="password"
               name="password"
               placeholder="new password"
@@ -141,7 +121,6 @@ const UpdateUserPassword = () => {
           <div className="form-group">
             <div>Confirm Password</div>
             <input
-              // className="form-control"
               type="password"
               name="password"
               placeholder="new password"
@@ -151,7 +130,7 @@ const UpdateUserPassword = () => {
             />
           </div>
 
-          <button /*type="submit"*/ onClick={handleSubmit}>Update</button>
+          <button onClick={handleSubmit}>Update</button>
         </form>
       </div>
     </>

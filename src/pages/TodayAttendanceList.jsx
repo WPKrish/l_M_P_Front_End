@@ -10,6 +10,8 @@ import {defaultConfig} from "../constant/App.constant";
 
 const TodayAttendanceList = () => {
   const [attendances, setAttendances] = useState([]);
+  const [filteredAttendances, setFilteredAttendances] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => handleGetAttendances, []);
 
@@ -21,13 +23,20 @@ const TodayAttendanceList = () => {
       console.log("API Response:", response.data);
       setAttendances(response.data);
     } catch (error) {
-      // alert("Labors Not Found Today");
       Swal.fire({
         ...defaultConfig,
         title: "Labors Not Found Today",
       });
     }
   };
+
+  useEffect(() => {
+    // Filter labors based on the search term
+    const filtered = attendances.filter((attendance) =>
+      attendance.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredAttendances(filtered);
+  }, [searchTerm, attendances]);
 
   // Get saved data from local storage
   const userEmployeeID = localStorage.getItem("employeeID");
@@ -48,9 +57,17 @@ const TodayAttendanceList = () => {
       </div>
       <h3>Today Working Labor's Attendances</h3>
       <div>
-        <div className="user-topic">
-          {/* <h2>Today Working Labor's Attendances</h2> */}
-        </div>
+      <div className="searchByName">
+        <label htmlFor="search">Search by Name :</label>
+        <input
+          className="searchInput"
+          type="text"
+          id="search"
+          placeholder="Enter name....."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
         <div className="table-container">
           {attendances.length > 0 && (
             <table className="user-table">
@@ -63,9 +80,8 @@ const TodayAttendanceList = () => {
                 </tr>
               </thead>
               <tbody>
-                {attendances.map((attendance) => (
+                {filteredAttendances.map((attendance) => (
                   <tr key={attendance.attID}>
-                    {/* <td>{(attendance?.employeeID)}</td> */}
                     <td
                       style={{
                         fontWeight:
